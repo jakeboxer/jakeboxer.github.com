@@ -6,4 +6,4 @@ comments: true
 categories: 
 ---
 
-I'm now moving all my stuff from Media Temple and Tumblr to here. The next few posts should be reposts.
+I'm now moving all my stuff from Media Temple and Tumblr to here. All posts before this one are reposts.

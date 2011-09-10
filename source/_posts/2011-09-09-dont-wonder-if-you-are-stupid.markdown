@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Don't Wonder if You Are Stupid"
-date: 2011-09-09 16:08
+title: "Don't wonder if you are stupid"
+date: 2008-11-14 16:08
 comments: true
 categories: 
 ---

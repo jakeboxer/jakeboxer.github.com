@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Array Slicing Is Messed Up"
-date: 2011-09-09 15:56
+title: "Array slicing is messed up"
+date: 2008-11-06 15:56
 comments: true
 categories: 
 ---
