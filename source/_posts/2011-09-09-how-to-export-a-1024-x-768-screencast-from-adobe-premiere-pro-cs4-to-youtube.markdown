@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to export a 1024 X 768 screencast from Adobe Premiere Pro CS4 to Youtube"
-date: 2011-03-22 17:40
+date: 2009-03-22 17:40
 comments: true
 categories:
 ---
