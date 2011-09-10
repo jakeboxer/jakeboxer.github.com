@@ -2,11 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://jboxer.com/
+url: http://jboxer.com
 title: jBoxer
 subtitle: I change the directions of small pieces of metal for a living.
 author: Jake Boxer
-simple_search: http://google.com/search
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
