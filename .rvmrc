@@ -1,1 +1,1 @@
-rvm --create use 1.9.2-p136@my_octopress_site
+rvm --create use 1.9.2-p180@my_octopress_site
