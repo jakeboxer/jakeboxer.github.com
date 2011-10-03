@@ -14,7 +14,9 @@ If you follow these five simple rules, you should pretty much never get a memory
 
 1. Always declare @properties for your object instance variables
 ===
-If you're putting an instance variable on a class and it's an object, declare a property for it
+If you're putting an instance variable on a class and it's an object, declare a property for it.
+
+<!-- more -->
 
 ``` objc Declaring properties
 @interface MyObject : NSObject
