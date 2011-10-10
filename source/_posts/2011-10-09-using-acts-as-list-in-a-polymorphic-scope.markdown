@@ -19,7 +19,7 @@ end
 
 We pass `:todo_list` as the `scope` (which `acts_as_list` converts to the `todo_list_id` column).
 
-Now, let's say we're making a polymorphic `Picture` model (like in [the Polymorphic Associations section of the Rails Guides](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations)), and we want pictures to be sortable and reorderable. Here's **the right way to do it**:
+Now, let's say we're making a polymorphic `Picture` model (like in [the Polymorphic Associations section of the Ruby on Rails Guides](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations)), and we want pictures to be sortable and reorderable. Here's **the right way to do it**:
 
 ``` ruby acts_as_list in a polymorphic scope (the RIGHT way)
 class Picture < ActiveRecord::Base
