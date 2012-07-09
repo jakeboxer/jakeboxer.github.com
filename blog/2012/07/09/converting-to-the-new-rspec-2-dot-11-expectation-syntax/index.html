@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Converting to the new RSpec 2.11 expectation syntax - jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="RSpec 2.11 was released a few days ago. The biggest change is a brand new expectation syntax by Myron Marston.Now, instead of writing this:Old expe...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Converting to the new RSpec 2.11 expectation syntax</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-07-09T15:28:00-07:00" pubdate  data-updated="true" >Jul 9<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://blog.davidchelimsky.net/2012/07/07/rspec-211-is-released/">RSpec 2.11</a> was released a few days ago. The biggest change is <a href="http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax">a brand new expectation syntax</a> by <a href="http://myronmars.to/n/dev-blog">Myron Marston</a>.</p>
+
+<p>Now, instead of writing this:</p>
+
+<figure class='code'><figcaption><span>Old expectation syntax</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should_not</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can write this</p>
+
+<figure class='code'><figcaption><span>New expectation syntax</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax">Myron&#8217;s blog post</a> does a fantastic job explaining why this is better. To summarize:</p>
+
+<ol>
+<li>RSpec does not own every object in the system, so it cannot add the <code>should</code> and <code>should_not</code> methods to every object. This can lead to some really confusing errors. Using <code>expect</code> works around this.</li>
+<li>Block expectations already used the <code>expect</code> syntax out of necessity. The inconsistent syntax made it harder to read specs that used both. Using <code>expect</code> for normal expectations unifies the syntax, making these specs much more readable.</li>
+</ol>
+
+
+<p>What follows is a step-by-step guide to convert all your specs from the old syntax to the new one as quickly as possible.</p>
+
+<h2>Change all equality operator matchers</h2>
+
+<p>The new expectation syntax does not support <code>foo.should == bar</code>. You need to do <code>expect(foo).to eq(bar)</code>. So, go through all your specs and make this change.</p>
+
+<p>You can use this regular expression:</p>
+
+<figure class='code'><figcaption><span>Regular expressions for replacing == with eq()</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Note that these both start with a leading space. Don&#39;t forget them, or they won&#39;t work.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Find</span>
+</span><span class='line'><span class="sr">/ == (.*)$/</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Replace  </span>
+</span><span class='line'><span class="sr">/ eq($1)/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For global find/replace stuff, I prefer to open and editor and click &#8220;Replace&#8221; over and over. It&#8217;s slower, but I don&#8217;t have to track down mistakes afterwards, and I get to improve my regex as I go. Feel free to do it however you want, but make sure to check your diff afterwards.</p>
+
+<p>Once you&#8217;re done, re-run your specs and make sure everything is still passing. Note that we haven&#8217;t yet changed <code>should</code> to <code>expect</code>, so everything should be passing.</p>
+
+<h2>Change other unsupported operator matchers</h2>
+
+<p>These should be rare enough that you don&#8217;t need a regex. If you do, write it and send it to me, and I&#8217;ll include it in here and give you credit.</p>
+
+<p>Go through all your specs and make these changes:</p>
+
+<figure class='code'><figcaption><span>Unsupported operator matcher replacements</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Regex matching</span>
+</span><span class='line'><span class="s2">&quot;a string&quot;</span><span class="o">.</span><span class="n">should</span> <span class="o">=~</span> <span class="sr">/a str[iou]ng/</span> <span class="c1"># Old, bad.</span>
+</span><span class='line'><span class="s2">&quot;a string&quot;</span><span class="o">.</span><span class="n">should</span> <span class="n">match</span><span class="p">(</span><span class="sr">/a str[iou]ng/</span><span class="p">)</span> <span class="c1"># New, good.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Matching array contents while ignoring order</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">should</span> <span class="o">=~</span> <span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span> <span class="c1"># Old, bad.</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">should</span> <span class="n">match_array</span><span class="p">(</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span><span class="p">)</span> <span class="c1"># New, good.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Comparison matchers (do this with ALL matchers: &lt;, &lt;=, &gt;, &gt;=)</span>
+</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="c1"># Old, very bad. You should never have been using this.</span>
+</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should</span> <span class="n">be</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="c1"># New, good</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Re-run your specs and make sure everything is still passing.</p>
+
+<h2>Disallow &#8220;should&#8221; from your specs</h2>
+
+<p>Open your <code>spec/spec_helper.rb</code> file and add the following lines to your configuration block:</p>
+
+<figure class='code'><figcaption><span>spec/spec_helper.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'><span class="c1"># .. other stuff</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Add all three of these lines:</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">expect_with</span> <span class="ss">:rspec</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="ss">:expect</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># .. other stuff</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will stop RSpec from adding <code>should</code> to all objects. Make sure you add all three lines; I didn&#8217;t realize it was within a block at first, and got errors.</p>
+
+<p>If you run your specs now, pretty much everything should fail.</p>
+
+<h2>Replace should and should_not with expect</h2>
+
+<p>This is the most tedious part. Luckily, I came up with a regex that works for both <code>should</code> and <code>should_not</code>. Here it is:</p>
+
+<figure class='code'><figcaption><span>Regular expressions for replacing should/should_not with expect</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Find</span><span class="sr"></span>
+</span><span class='line'><span class="sr">/^(\s+)(.*(?=.should))\.should(_)?(not)? (.*)$/</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Replace</span><span class="sr"></span>
+</span><span class='line'><span class="sr">/$1expect($2).$4$3to $5/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One caveat: this will <em>not work</em> for expectations that aren&#8217;t on their own line. Example (using <a href="https://github.com/jnicklas/capybara">Capybara</a>)</p>
+
+<figure class='code'><figcaption><span>Working and non-working examples for regex</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Regex WON&#39;T find/replace properly</span>
+</span><span class='line'><span class="n">within</span><span class="p">(</span><span class="s1">&#39;#header&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;About&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Regex WILL find/replace properly</span>
+</span><span class='line'><span class="n">within</span> <span class="s1">&#39;#header&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;About&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first example won&#8217;t work, because the expectation comes after <code>within('#header') {</code>. The second will work, because the expectation is on its own line.</p>
+
+<p>So, like I said above, don&#8217;t just do one &#8220;Replace All&#8221;; click the &#8220;Replace&#8221; button in your editor over and over, so you can spot these broken cases and fix them manually.</p>
+
+<p>I tried for awhile to fix these broken cases, but I&#8217;m pretty sure it&#8217;s not possible via regex. If someone can prove me wrong, I&#8217;d love to update this guide and give you credit.</p>
+
+<p>After doing this in all your specs, re-run them. Everything should pass. If not, comment, and I can try to help you figure out what&#8217;s up.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jake Boxer</span></span>
+
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-07-09T15:28:00-07:00" pubdate  data-updated="true" >Jul 9<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jakeboxer.github.com/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/" data-via="jake_boxer" data-counturl="http://jakeboxer.github.com/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+    
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation's Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash's PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jakeboxer.github.com/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/';
+        var disqus_url = 'http://jakeboxer.github.com/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/';
+        var disqus_script = 'embed.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

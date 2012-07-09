@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to reset/revert a single file with Git - jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="I&#8217;m making this post more for my own reference than to help anyone else, but feel free to comment if you have questions or anything.If you&#8...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to reset/revert a single file with Git</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2010-07-08T20:41:00-07:00" pubdate  data-updated="true" >Jul 8<span>th</span>, 2010</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;m making this post more for my own reference than to help anyone else, but feel free to comment if you have questions or anything.</p>
+
+<p>If you&#8217;ve made a commit with git (let&#8217;s call it &#8220;commit A&#8221;), and you want to make another commit (let&#8217;s call it &#8220;commit B&#8221;) that, among other things, reverts the changes made to a single file (let&#8217;s call it file1.rb) in commit A, use the following command:</p>
+
+<p><code>git reset commit-a -- path/to/file1.rb</code></p>
+
+<p>That&#8217;ll create two sets of changes: a copy of the changes you made in commit A, and the inverse of the changes you made in commit A. The inverse is staged, while the copy is unstaged. Nine times out of ten, you&#8217;ll want to commit the staged changes (which, as they&#8217;re the inverse of the changes in commit A, will result in a revert of file1) and discard the unstaged ones.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jake Boxer</span></span>
+
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2010-07-08T20:41:00-07:00" pubdate  data-updated="true" >Jul 8<span>th</span>, 2010</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jakeboxer.github.com/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/" data-via="jake_boxer" data-counturl="http://jakeboxer.github.com/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+    
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation's Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash's PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jakeboxer.github.com/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/';
+        var disqus_url = 'http://jakeboxer.github.com/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/';
+        var disqus_script = 'embed.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

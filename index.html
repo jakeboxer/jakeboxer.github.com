@@ -1,1 +1,1058 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="RSpec 2.11 was released a few days ago. The biggest change is a brand new expectation syntax by Myron Marston.Now, instead of writing this:Old expe...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-07-09T15:28:00-07:00" pubdate  data-updated="true" >Jul 9<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://blog.davidchelimsky.net/2012/07/07/rspec-211-is-released/">RSpec 2.11</a> was released a few days ago. The biggest change is <a href="http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax">a brand new expectation syntax</a> by <a href="http://myronmars.to/n/dev-blog">Myron Marston</a>.</p>
+
+<p>Now, instead of writing this:</p>
+
+<figure class='code'><figcaption><span>Old expectation syntax</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should_not</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can write this</p>
+
+<figure class='code'><figcaption><span>New expectation syntax</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">eq</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax">Myron&#8217;s blog post</a> does a fantastic job explaining why this is better. To summarize:</p>
+
+<ol>
+<li>RSpec does not own every object in the system, so it cannot add the <code>should</code> and <code>should_not</code> methods to every object. This can lead to some really confusing errors. Using <code>expect</code> works around this.</li>
+<li>Block expectations already used the <code>expect</code> syntax out of necessity. The inconsistent syntax made it harder to read specs that used both. Using <code>expect</code> for normal expectations unifies the syntax, making these specs much more readable.</li>
+</ol>
+
+
+<p>What follows is a step-by-step guide to convert all your specs from the old syntax to the new one as quickly as possible.</p>
+
+<h2>Change all equality operator matchers</h2>
+
+<p>The new expectation syntax does not support <code>foo.should == bar</code>. You need to do <code>expect(foo).to eq(bar)</code>. So, go through all your specs and make this change.</p>
+
+<p>You can use this regular expression:</p>
+
+<figure class='code'><figcaption><span>Regular expressions for replacing == with eq()</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Note that these both start with a leading space. Don&#39;t forget them, or they won&#39;t work.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Find</span>
+</span><span class='line'><span class="sr">/ == (.*)$/</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Replace  </span>
+</span><span class='line'><span class="sr">/ eq($1)/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For global find/replace stuff, I prefer to open and editor and click &#8220;Replace&#8221; over and over. It&#8217;s slower, but I don&#8217;t have to track down mistakes afterwards, and I get to improve my regex as I go. Feel free to do it however you want, but make sure to check your diff afterwards.</p>
+
+<p>Once you&#8217;re done, re-run your specs and make sure everything is still passing. Note that we haven&#8217;t yet changed <code>should</code> to <code>expect</code>, so everything should be passing.</p>
+
+<h2>Change other unsupported operator matchers</h2>
+
+<p>These should be rare enough that you don&#8217;t need a regex. If you do, write it and send it to me, and I&#8217;ll include it in here and give you credit.</p>
+
+<p>Go through all your specs and make these changes:</p>
+
+<figure class='code'><figcaption><span>Unsupported operator matcher replacements</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Regex matching</span>
+</span><span class='line'><span class="s2">&quot;a string&quot;</span><span class="o">.</span><span class="n">should</span> <span class="o">=~</span> <span class="sr">/a str[iou]ng/</span> <span class="c1"># Old, bad.</span>
+</span><span class='line'><span class="s2">&quot;a string&quot;</span><span class="o">.</span><span class="n">should</span> <span class="n">match</span><span class="p">(</span><span class="sr">/a str[iou]ng/</span><span class="p">)</span> <span class="c1"># New, good.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Matching array contents while ignoring order</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">should</span> <span class="o">=~</span> <span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span> <span class="c1"># Old, bad.</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">should</span> <span class="n">match_array</span><span class="p">(</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span><span class="p">)</span> <span class="c1"># New, good.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Comparison matchers (do this with ALL matchers: &lt;, &lt;=, &gt;, &gt;=)</span>
+</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="c1"># Old, very bad. You should never have been using this.</span>
+</span><span class='line'><span class="n">foo</span><span class="o">.</span><span class="n">should</span> <span class="n">be</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="c1"># New, good</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Re-run your specs and make sure everything is still passing.</p>
+
+<h2>Disallow &#8220;should&#8221; from your specs</h2>
+
+<p>Open your <code>spec/spec_helper.rb</code> file and add the following lines to your configuration block:</p>
+
+<figure class='code'><figcaption><span>spec/spec_helper.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'><span class="c1"># .. other stuff</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Add all three of these lines:</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">expect_with</span> <span class="ss">:rspec</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="ss">:expect</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># .. other stuff</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will stop RSpec from adding <code>should</code> to all objects. Make sure you add all three lines; I didn&#8217;t realize it was within a block at first, and got errors.</p>
+
+<p>If you run your specs now, pretty much everything should fail.</p>
+
+<h2>Replace should and should_not with expect</h2>
+
+<p>This is the most tedious part. Luckily, I came up with a regex that works for both <code>should</code> and <code>should_not</code>. Here it is:</p>
+
+<figure class='code'><figcaption><span>Regular expressions for replacing should/should_not with expect</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Find</span><span class="sr"></span>
+</span><span class='line'><span class="sr">/^(\s+)(.*(?=.should))\.should(_)?(not)? (.*)$/</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Replace</span><span class="sr"></span>
+</span><span class='line'><span class="sr">/$1expect($2).$4$3to $5/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One caveat: this will <em>not work</em> for expectations that aren&#8217;t on their own line. Example (using <a href="https://github.com/jnicklas/capybara">Capybara</a>)</p>
+
+<figure class='code'><figcaption><span>Working and non-working examples for regex</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Regex WON&#39;T find/replace properly</span>
+</span><span class='line'><span class="n">within</span><span class="p">(</span><span class="s1">&#39;#header&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;About&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Regex WILL find/replace properly</span>
+</span><span class='line'><span class="n">within</span> <span class="s1">&#39;#header&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;About&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first example won&#8217;t work, because the expectation comes after <code>within('#header') {</code>. The second will work, because the expectation is on its own line.</p>
+
+<p>So, like I said above, don&#8217;t just do one &#8220;Replace All&#8221;; click the &#8220;Replace&#8221; button in your editor over and over, so you can spot these broken cases and fix them manually.</p>
+
+<p>I tried for awhile to fix these broken cases, but I&#8217;m pretty sure it&#8217;s not possible via regex. If someone can prove me wrong, I&#8217;d love to update this guide and give you credit.</p>
+
+<p>After doing this in all your specs, re-run them. Everything should pass. If not, comment, and I can try to help you figure out what&#8217;s up.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-03-15T12:00:00-07:00" pubdate  data-updated="true" >Mar 15<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/15/changing-a-rails-3-project-name/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve had to change Rails 3 project names a few times now. It&#8217;s too bad there&#8217;s no <code>rake</code> command for it. Here&#8217;s the next best thing: a step-by-step guide.</p>
+
+<p>For the sake of this example, let&#8217;s say I&#8217;m changing my name name from &#8220;Teach&#8221; to &#8220;Learn&#8221;.</p>
+
+<h2>Update your app&#8217;s module name</h2>
+
+<p>In <code>/config/application.rb</code>, change the name of the module:</p>
+
+<figure class='code'><figcaption><span>/config/application.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Learn</span> <span class="c1"># Used to be `module Teach`</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Update references to your app&#8217;s module name</h2>
+
+<p>Your app&#8217;s module name should appear in <code>/config.ru</code>:</p>
+
+<figure class='code'><figcaption><span>/config.ru</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># This file is used by Rack-based servers to start the application.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../config/environment&#39;</span><span class="p">,</span>  <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'><span class="n">run</span> <span class="no">Learn</span><span class="o">::</span><span class="no">Application</span> <span class="c1"># Used to be `run Teach::Application`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And in <code>/Rakefile</code>:</p>
+
+<figure class='code'><figcaption><span>/Rakefile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env rake</span>
+</span><span class='line'><span class="c1"># Add your own tasks in files placed in lib/tasks ending in .rake,</span>
+</span><span class='line'><span class="c1"># for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../config/application&#39;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Learn</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">load_tasks</span> <span class="c1"># Used to be `Teach::Application.load_tasks`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Your app&#8217;s module name should also appear in a bunch of files under the <code>/config</code> directory. It should appear in <code>/config/environments.rb</code>.</p>
+
+<figure class='code'><figcaption><span>/config/environments.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Initialize the rails application</span>
+</span><span class='line'><span class="no">Learn</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">initialize!</span> <span class="c1"># Used to be `Teach::Application.initialize!`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It should also appear in all the environment-specific configurations in <code>/config/environments/*.rb</code> (which should be <code>development.rb</code>, <code>production.rb</code>, <code>test.rb</code>, and any other environments you have configured). Change them all:</p>
+
+<figure class='code'><figcaption><span>/config/environments/*.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Learn</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="c1"># Used to be `Teach::Application.configure do`</span>
+</span><span class='line'>  <span class="c1"># Settings specified here will take precedence over those in config/application.rb</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And in your initializers (under <code>/config/initializers/</code>). At the very least, <code>/config/initializers/secret_token.rb</code> and <code>/config/initializers/session_store.rb</code> should have it:</p>
+
+<figure class='code'><figcaption><span>/config/initializers/secret_token.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Your secret key for verifying the integrity of signed cookies.</span>
+</span><span class='line'><span class="c1"># If you change this key, all old signed cookies will become invalid!</span>
+</span><span class='line'><span class="c1"># Make sure the secret is at least 30 characters and all random,</span>
+</span><span class='line'><span class="c1"># no regular words or you&#39;ll be exposed to dictionary attacks.</span>
+</span><span class='line'><span class="no">Learn</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">secret_token</span> <span class="o">=</span> <span class="s1">&#39;garbagestring&#39;</span>
+</span><span class='line'><span class="c1"># Used to start with `Teach::Application`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>/config/initializers/session_store.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Learn</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s1">&#39;_learn_session&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Use the database for sessions instead of the cookie-based default,</span>
+</span><span class='line'><span class="c1"># which shouldn&#39;t be used to store highly confidential information</span>
+</span><span class='line'><span class="c1"># (create the session table with &quot;rails generate session_migration&quot;)</span>
+</span><span class='line'><span class="c1"># Learn::Application.config.session_store :active_record_store</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># For the sake of cleanliness, I changed it from `Teach::Application` in both the actual</span>
+</span><span class='line'><span class="c1"># line of code and the comment. Also, `:key` used to be &#39;_teach_session&#39;.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And in your <code>/config/routes.rb</code> file:</p>
+
+<figure class='code'><figcaption><span>/config/routes.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Learn</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span> <span class="c1"># Used to be Teach::Application.routes.draw</span>
+</span><span class='line'>  <span class="c1"># Routes in here</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, for consistency&#8217;s sake, if the names of your databases include your app name, you should update those in <code>/config/database.yml</code></p>
+
+<figure class='code'><figcaption><span>/config/database.yml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">encoding</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">utf8</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">reconnect</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">learn_development</span> <span class="c1"># Used to be teach_development</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">root</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">encoding</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">utf8</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">reconnect</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">learn_test</span> <span class="c1"># Used to be teach_test</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">root</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">encoding</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">utf8</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">reconnect</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">learn_production</span> <span class="c1"># Used to be teach_production</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">root</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Search your app and lib folders</h2>
+
+<p><code>grep</code> through your <code>/app</code> and <code>/lib</code> folders to find any mentions of your project name and change them. This might be a little tedious if you have a name that conflicts with a bunch of Ruby/Rails stuff (like &#8220;def&#8221; or something stupid like that), but you only have to do it once.</p>
+
+<h2>Done!</h2>
+
+<p>That&#8217;s it! Now you have a renamed Rails 3 app.</p>
+
+<p>Note: I did this on Rails 3.2.1. It&#8217;s possible some things will be different on other versions.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation&#8217;s Seth Priebatsch Article is Childish Garbage</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-11-16T13:04:00-08:00" pubdate  data-updated="true" >Nov 16<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Disclaimer</strong>: I was SCVNGR&#8217;s lead iOS developer for almost two years. I started a new job at GitHub last month. This is neither a critique nor a defense of the actions or words of Seth Priebatsch or SCVNGR.</p>
+
+<p>Today, BostInnovation published an article called <a href="http://bostinnovation.com/2011/11/16/seth-priebatsch-thinks-everyone-at-bostinno-is-painfully-stupid-really-internal-email/">Seth Priebatsch Thinks Everyone at BostInno is Painfully Stupid… Really?</a>. In it, they publish an internal SCVNGR email in which Seth insults them, then spend the rest of the article defending themselves from his insults and offering him advice on how to have fun and run a company.</p>
+
+<p>Like most media outlets, I have mixed feelings about BostInnovation. The article in question, however, is childish garbage.</p>
+
+<p>The are some points to be made here that anyone who is techy enough to read BostInnovation knows. There&#8217;s no way to prove this email is real. There&#8217;s no way to prove that the &#8220;leaker&#8221; didn&#8217;t tweak it. But those aren&#8217;t the important part.</p>
+
+<p>The important part is, this was an internal email. Were it not for BostInnovation, under 100 people would&#8217;ve read it, all of whom work for SCVNGR. This email was no threat to BostInnovation&#8217;s readership. This is reminiscent of elementary school kids intercepting a passed note and reading it out loud to all their friends.</p>
+
+<p>If the focus of this article was &#8220;Seth is lying to the media and investors,&#8221; that would be a different story (and would require significantly more evidence). I would still be a bit off-put by the publishing of an internal email in a private company, but at least that would be news worth reading. Instead, the focus is &#8220;CEO of company thinks we&#8217;re dumb, so here&#8217;s why he&#8217;s weird and mean.&#8221; If I were an advertiser on BostInnovation, I would be pretty upset with this.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash&#8217;s PS1 Syntax: The Inspiration for Brainfuck?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-11-06T19:24:00-08:00" pubdate  data-updated="true" >Nov 6<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I just spent way too much time struggling to get my Bash <code>PS1</code> variable working right. Originally, it looked like this (<code>parse_git_branch</code> is a Bash function I have defined elsewhere):</p>
+
+<figure class='code'><figcaption><span>Old PS1</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\w\e[35m\$(parse_git_branch)\e[m &gt; &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, it looks like this:</p>
+
+<figure class='code'><figcaption><span>New PS1</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\w\[\e[35m\]\$(parse_git_branch)\[\e[m\] &gt; &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The difference? I wasn&#8217;t escaping my color codes correctly, which was causing Terminal to wrap long commands onto the beginning of the same line.</p>
+
+<p>Let me break down Bash&#8217;s color code syntax, because it makes me so angry. A minimal Bash color code looks like this:</p>
+
+<figure class='code'><figcaption><span>Minimal Bash color code</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>\e[1;30m
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>\e[</code> means &#8220;here comes a color code&#8221; I guess.</p>
+
+<p><code>1</code> means &#8220;make it bold&#8221;. If you don&#8217;t want bold, leave it out.</p>
+
+<p><code>;</code> means &#8220;I&#8217;m finished telling you that this is bold&#8221;. If you don&#8217;t want bold, or if you want default-colored text (explained below), leave it out.</p>
+
+<p><code>30</code> means &#8220;dark gray&#8221;. Here&#8217;s an exhaustive list of valid numbers (no number means default color):</p>
+
+<ul>
+<li><code>30</code> = dark gray</li>
+<li><code>31</code> = red</li>
+<li><code>32</code> = green</li>
+<li><code>33</code> = yellow</li>
+<li><code>34</code> = blue</li>
+<li><code>35</code> = purple</li>
+<li><code>36</code> = turquoise</li>
+<li><code>37</code> = light gray</li>
+</ul>
+
+
+<p>0-29 don&#8217;t do anything (at least in Terminal.app on OS X 10.7.2). No idea why they start at 30.</p>
+
+<p><code>m</code> means &#8220;my color code is over&#8221;.</p>
+
+<p>If you match that format, all subsequent characters will be that color (until you define another color code).</p>
+
+<p><strong>But that&#8217;s not all!</strong> This sequence is escaped incorrectly. If you have it in your PS1, Terminal will look correct on startup, but if you type a long command that wraps past the first line, Terminal will wrap it back to the beginning of the line you&#8217;re on and start overwriting characters.</p>
+
+<p>I bet you think the fix is to match the open square bracket with a closed one, right? If so, give yourself a half pat on the back, then punch yourself in the face. Here&#8217;s how to escape it correctly.</p>
+
+<figure class='code'><figcaption><span>How to escape a Bash color code</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>\e[1;30m     # Wrong
+</span><span class='line'>\[\e[1:30m\] # Right
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You need to close match the open bracket (with an escaped close bracket), but also add <em>another</em> open (escaped) bracket to the front, also with no closer.</p>
+
+<p>Anyone wanna educate me on the reason for all this madness? Right now, it just feels like some dude thought regular expression and strftime syntax were too verbose.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-10-09T15:52:00-07:00" pubdate  data-updated="true" >Oct 9<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If you&#8217;re using <a href="https://github.com/swanandp/acts_as_list">acts_as_list</a> in a polymorphic scope, you need to define the scope a little bit differently to make everything work right.</p>
+
+<p>Here&#8217;s the non-polymorphic example from acts_as_list&#8217;s README:</p>
+
+<figure class='code'><figcaption><span>acts_as_list in a normal (non-polymorphic) scope</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:todo_list</span>
+</span><span class='line'>  <span class="n">acts_as_list</span> <span class="n">scope</span><span class="p">:</span> <span class="ss">:todo_list</span> <span class="c1"># Note the single-item scope</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We pass <code>:todo_list</code> as the <code>scope</code> (which <code>acts_as_list</code> converts to the <code>todo_list_id</code> column).</p>
+
+<p>Now, let&#8217;s say we&#8217;re making a polymorphic <code>Picture</code> model (like in <a href="http://guides.rubyonrails.org/association_basics.html#polymorphic-associations">the Polymorphic Associations section of the Ruby on Rails Guides</a>), and we want pictures to be sortable and reorderable. Here&#8217;s <strong>the right way to do it</strong>:</p>
+
+<figure class='code'><figcaption><span>acts_as_list in a polymorphic scope (the RIGHT way)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Picture</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:imageable</span><span class="p">,</span> <span class="n">polymorphic</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">acts_as_list</span> <span class="n">scope</span><span class="p">:</span> <span class="o">[</span><span class="ss">:imageable_id</span><span class="p">,</span> <span class="ss">:imageable_type</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/">My pre-ARC Objective-C memory management conventions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-10-03T12:06:00-07:00" pubdate  data-updated="true" >Oct 3<span>rd</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS 5 is coming soon, and introduces ARC. ARC will make Objective-C memory management significantly simpler. But, it will be a long time before iOS 5 is ubiquitous, and I&#8217;m not sold on the subset of ARC that will be available for iOS 4. So, in the meantime, I thought people might benefit from seeing the conventions I use to keep Objective-C memory management simple. Most iOS developers probably already follow something close to this, but it doesn&#8217;t hurt to have it written out.</p>
+
+<p>If you follow these five simple rules, you should pretty much never get a memory leak or a crash from over-releasing.</p>
+
+<hr />
+
+<h1>1. Always declare @properties for your object instance variables</h1>
+
+<p>If you&#8217;re putting an instance variable on a class and it&#8217;s an object, declare a property for it.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/09/09/moving-to-octopress/">Moving to Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-09-09T15:47:00-07:00" pubdate  data-updated="true" >Sep 9<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/09/09/moving-to-octopress/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m now moving all my stuff from Media Temple and Tumblr to here. All posts before this one are reposts.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/06/14/my-tips-for-an-awesome-wwdc/">My tips for an awesome WWDC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-06-14T20:57:00-07:00" pubdate  data-updated="true" >Jun 14<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/06/14/my-tips-for-an-awesome-wwdc/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve seen a bunch of people who just got back from WWDC posting advice on how to have the best time possible. I figured I should do the same thing. Here are my tips.</p>
+
+<p><strong>Don&#8217;t get in the keynote line early</strong></p>
+
+<p>Even if you want to sit near the front, you don&#8217;t need to get in line until around 8:30am. It&#8217;s really easy to just run and push past all the submissive nerds and get an awesome seat.</p>
+
+<p><strong>Live-blog the keynote</strong></p>
+
+<p>People who aren&#8217;t at the keynote would much rather read you repeating Steve Jobs&#8217; announcements sentence-by-sentence on Twitter than watch a live feed with pictures. Also, other people in the audience who are following you will love reliving the moment when they look through their tweets later on.</p>
+
+<p><strong>Complain about the food</strong></p>
+
+<p>You paid a lot of money for tickets, which entitles you to demand customized gourmet meals. Food should be the main concern at any tech conference, and if you aren&#8217;t absolutely overjoyed by what you&#8217;re putting in your mouth, you aren&#8217;t getting your money&#8217;s worth.</p>
+
+<p><strong>Don&#8217;t silence your phone before a session begins</strong></p>
+
+<p>I know they ask you to before every session (and you should roll your eyes and say &#8220;do they have to say this every time?&#8221; when they do), but they&#8217;re really just forced to say that by law. In reality, all the speakers helped make these devices, and it&#8217;ll make them proud to see you using them. In fact, feel free to quietly answer your phone right in the middle of a talk. No one will notice.</p>
+
+<p><strong>Code during sessions</strong></p>
+
+<p>There are very few places in the world where you will have the opportunity to write code. A conference that you paid $1600 to attend is one of these places, and you should take advantage of that. Besides, you can just watch the session videos later.</p>
+
+<p><strong>Don&#8217;t go to any parties afterwards</strong></p>
+
+<p>You&#8217;re probably better at programming than the other attendees. Meeting them is pointless, and won&#8217;t be fun (and all the parties charge lots of money for alcohol, especially at Apple&#8217;s beer bash). Also, your hotel room is another one of the aforementioned few places in the world where you can code, so you should stay there and do that instead.</p>
+
+<p>These tips will guarantee you a quality WWDC 2012. Also, don&#8217;t read any other WWDC tip posts, they&#8217;re probably trying to troll you.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/05/18/the-misguided-priorities-of-twitter/">The misguided priorities of Twitter</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-05-18T20:54:00-07:00" pubdate  data-updated="true" >May 18<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/05/18/the-misguided-priorities-of-twitter/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today, Twitter <a href="http://blog.twitter.com/2011/05/mission-permission.html">announced</a> (with some awesome spin) that they would hamstring the direct message capabilities of all 3rd-party Twitter apps.</p>
+
+<p>It&#8217;s been clear for awhile that one of Twitter&#8217;s monetization strategies is to force everyone to use their mobile apps over those of third-parties. This will let them show promoted trending topics in the <a href="http://blog.twitter.com/2011/03/so-bar-walks-into-app.html">newly-neutered Dickbar</a> to all mobile users. I understand that Twitter needs to find a way to make money, but this direction strikes me as extremely misguided.</p>
+
+<p>I believe this lock-in strategy will never create enough revenue to cover a non-trivial portion of their operating costs (never mind the <a href="http://www.businessinsider.com/twitter-turned-down-a-10-billion-offer-from-google--report-2011-4">$10 billion they turned down from Google</a>). In the meantime, it will alienate the developers who were once the lifeblood of the Twitter ecosystem. Without these developers, the 3rd party apps that Twitter <em>does</em> want (cool aggregations, visualizations, etc.) will not be built, and new developer-fueled uses of the service will not be able to thrive.</p>
+
+<p>It seems to me that the folks making business decisions at Twitter are severely underestimating the importance of certain parts of the community, and/or severely overestimating the potential revenue from their own mobile apps.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/">How to reset/revert a single file with Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2010-07-08T20:41:00-07:00" pubdate  data-updated="true" >Jul 8<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m making this post more for my own reference than to help anyone else, but feel free to comment if you have questions or anything.</p>
+
+<p>If you&#8217;ve made a commit with git (let&#8217;s call it &#8220;commit A&#8221;), and you want to make another commit (let&#8217;s call it &#8220;commit B&#8221;) that, among other things, reverts the changes made to a single file (let&#8217;s call it file1.rb) in commit A, use the following command:</p>
+
+<p><code>git reset commit-a -- path/to/file1.rb</code></p>
+
+<p>That&#8217;ll create two sets of changes: a copy of the changes you made in commit A, and the inverse of the changes you made in commit A. The inverse is staged, while the copy is unstaged. Nine times out of ten, you&#8217;ll want to commit the staged changes (which, as they&#8217;re the inverse of the changes in commit A, will result in a revert of file1) and discard the unstaged ones.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <nav class="pagination">
+    <div>
+      
+        <a class="prev" href="/blog/page/2/">&larr; Older</a>
+      
+      <a href="/blog/archives">Blog Archives</a>
+      
+    </div>
+  </nav>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation&#8217;s Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash&#8217;s PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        var disqus_script = 'count.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>My pre-ARC Objective-C memory management conventions - jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="iOS 5 is coming soon, and introduces ARC. ARC will make Objective-C memory management significantly simpler. But, it will be a long time before iOS...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">My pre-ARC Objective-C memory management conventions</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-10-03T12:06:00-07:00" pubdate  data-updated="true" >Oct 3<span>rd</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>iOS 5 is coming soon, and introduces ARC. ARC will make Objective-C memory management significantly simpler. But, it will be a long time before iOS 5 is ubiquitous, and I&#8217;m not sold on the subset of ARC that will be available for iOS 4. So, in the meantime, I thought people might benefit from seeing the conventions I use to keep Objective-C memory management simple. Most iOS developers probably already follow something close to this, but it doesn&#8217;t hurt to have it written out.</p>
+
+<p>If you follow these five simple rules, you should pretty much never get a memory leak or a crash from over-releasing.</p>
+
+<hr />
+
+<h1>1. Always declare @properties for your object instance variables</h1>
+
+<p>If you&#8217;re putting an instance variable on a class and it&#8217;s an object, declare a property for it.</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span>Declaring properties</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">MyObject</span> : <span class="nc">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSDate</span><span class="o">*</span> <span class="n">someDate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">AVPlayerLayer</span><span class="o">*</span> <span class="n">someLayer</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSMutableArray</span><span class="o">*</span> <span class="n">someMutableArray</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span><span class="o">*</span> <span class="n">someString</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">*</span> <span class="n">someImmutableArray</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">MyObjectDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By default, you should always declare your object properties as <code>retain</code>.</p>
+
+<p>If you&#8217;re declaring a property for an object that&#8217;s expected to be immutable, but has a mutable subclass (for example, if you&#8217;re declaring an <code>NSArray</code> property, which has the <code>NSMutableArray</code> subclass), declare it as <code>copy</code> instead of <code>retain</code>.</p>
+
+<p>If you&#8217;re declaring a property for an object that is <em>guaranteed</em> to be retained elsewhere (for example, a delegate, or something that you&#8217;re also storing in an array and just need a convenient shortcut to), you can declare it <code>assign</code>. Be very careful with this though. If you&#8217;re unsure, just do <code>retain</code> or <code>copy</code>.</p>
+
+<p>You&#8217;ll also need to <code>@synthesize</code> all these properties in your <code>@implementation</code>:</p>
+
+<figure class='code'><figcaption><span>Synthesizing properties</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">MyObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">someDate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">someLayer</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">someMutableArray</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">someString</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">someImmutableArray</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">delegate</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, you&#8217;ll need to release all of the <code>retain</code> and <code>copy</code> properties (but <em>not</em> the <code>assign</code> properties) in your <code>dealloc</code>. This is the <em>only place in your code</em> where you should refer to your properties without <code>self.</code> (which means you&#8217;re actually accessing the instance variables rather than the properties).</p>
+
+<figure class='code'><figcaption><span>Releasing properties</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">MyObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">someDate</span> <span class="n">release</span><span class="p">];</span> <span class="c1">// Note that we&#39;re using someDate, not self.someDate</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">someLayer</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">someMutableArray</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">someString</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">someImmutableArray</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Note that we aren&#39;t releasing delegate</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>2. Always use <code>self</code> when accessing a property</h1>
+
+<p>If you don&#8217;t use <code>self</code>, you will be accessing the underlying instance variable directly, rather than going through the @synthesized getter/setter.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">someImmutableArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="n">array</span><span class="p">];</span>             <span class="c1">// Correct!</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;printing array: %@&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">someImmutableArray</span><span class="p">);</span> <span class="c1">// Correct!</span>
+</span><span class='line'><span class="n">someImmutableArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="n">array</span><span class="p">];</span>                  <span class="c1">// WRONG</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;printing array: %@&quot;</span><span class="p">,</span> <span class="n">someImmutableArray</span><span class="p">);</span>      <span class="c1">// WRONG</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you skip the @synthesized getter/setter, you skip the memory management rules you defined in your <code>@property</code>, which will lead to problems. The only exception to this is mentioned in rule 1: in your <code>dealloc</code> method, when releasing the object.</p>
+
+<h1>3. Make sure all newly-created objects are autoreleased</h1>
+
+<p>There is a bit of disagreement on the community on this one, but I have yet to hear a compelling argument for all but the most extreme cases, so we&#8217;ll go with the side that makes life easier. Whenever you create a new object, <strong>make sure it is autoreleased</strong>.</p>
+
+<p>The convention for this is as follows: all methods that return objects return autoreleased objects, unless the method name starts with <code>init</code> or <code>copy</code>. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">someNumber</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInteger:</span><span class="mi">5</span><span class="p">];</span>       <span class="c1">// autoreleased</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">someNumber</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInteger:</span><span class="mi">5</span><span class="p">];</span> <span class="c1">// not autoreleased</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you create an object with a method that starts with <code>init</code> or <code>copy</code>, make sure you explicitly tell it to autorelease:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">someNumber</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInteger:</span><span class="mi">5</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span> <span class="c1">// autoreleased</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will save you <em>a lot</em> of headaches. Any objects that you don&#8217;t want to keep will be released automatically. Any objects that you do want to keep should be assigned to a property, and since the property is <code>retain</code> or <code>copy</code> (as mentioned in rule 1), they will be retained and kept automatically.</p>
+
+<h1>4. Never call <code>retain</code> on anything</h1>
+
+<p>The method <code>retain</code> is not called once in all the lines of Objective-C code in my current code base. If you find yourself needing to explicitly retain an object, create a <code>retain</code> or <code>copy</code> property for it instead (as mentioned in rule 1) and assign it to that property.</p>
+
+<h1>5. Never call <code>release</code> on anything (except in <code>dealloc</code>)</h1>
+
+<p>If you&#8217;re following rule 4, there should never be a time when you explicitly need to release an object, except in your class&#8217;s <code>dealloc</code> method (as mentioned in rule 1).</p>
+
+<hr />
+
+<p>If you follow all these rules, you should never have to think about memory management. If you deviate from any of them, you could end up in weird tough-to-debug situations, so try your hardest not to. If you find yourself in a situation where you think you absolutely need to deviate, write a comment on this post explaining your situation, and I&#8217;ll see if I can help.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jake Boxer</span></span>
+
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-10-03T12:06:00-07:00" pubdate  data-updated="true" >Oct 3<span>rd</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jakeboxer.github.com/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/" data-via="jake_boxer" data-counturl="http://jakeboxer.github.com/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+    
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation's Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash's PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jakeboxer.github.com/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/';
+        var disqus_url = 'http://jakeboxer.github.com/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/';
+        var disqus_script = 'embed.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

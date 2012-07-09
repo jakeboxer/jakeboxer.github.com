@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Installing MySQL on Snow Leopard - jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="Early on at Cisco, I realized that it&#8217;s really beneficial to write down (step by step) what I&#8217;ve done when I install something new. It ...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/blog/2009/09/12/installing-mysql-on-snow-leopard/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Installing MySQL on Snow Leopard</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-09-12T19:32:00-07:00" pubdate  data-updated="true" >Sep 12<span>th</span>, 2009</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Early on at Cisco, I realized that it&#8217;s really beneficial to write down (step by step) what I&#8217;ve done when I install something new. It forces me to think about what I&#8217;m doing, it provides me with a guide in case I mess up and have to start over, and other people can benefit from it later.</p>
+
+<p>With that in mind, I&#8217;ve decided to document my installation of MySQL on Snow Leopard (OS X 10.6). Hopefully, someone will get some use out of it, but if not, at least I&#8217;ll have documentation of what I did.</p>
+
+<h2>The PATH Variable</h2>
+
+<p>MySQL has a bunch of useful executables that aren&#8217;t in PATH by default. I could symlink to them, but I think that&#8217;s less maintainable than just appending to PATH.</p>
+
+<ol>
+<li><p>Open the Terminal</p></li>
+<li><p>Open up the .bash_profile file in your home directory. This is a bash script that runs every time you start the Terminal, so the PATH variable will be extended properly every time. <strong>If you have TextMate and its UNIX command line tools installed</strong>, do it like this:</p>
+
+<p><code>bash
+mate ~/.bash_profile
+</code></p>
+
+<p>Otherwise, do it like this:</p>
+
+<p><code>bash
+/Applications/TextEdit.app/Contents/MacOS/TextEdit ~/.bash_profile &amp;
+</code></p>
+
+<p>If you use the second one, make sure to add the ampersand at the end.</p></li>
+<li><p>We want to add MySQL&#8217;s bin folder to PATH. MySQL&#8217;s going to be installed at /usr/local/mysql, so let&#8217;s add /usr/local/mysql/bin to PATH. Add the following line to .bash_profile:</p>
+
+<p><code>bash
+export PATH="/usr/local/mysql/bin:/usr/local/sbin:$PATH"
+</code></p>
+
+<p>This replaces PATH with two new locations and the old value of path (so essentially, appending the two new locations to the beginning of PATH). You&#8217;ll notice that, in addition to /usr/local/mysql/bin (which I mentioned earlier), I also added /usr/local/sbin. OS X doesn&#8217;t include this in PATH by default, but I think it should, so I added it. I have no defense for that position, but this is as much a guide for myself as it is a guide for other people, so I don&#8217;t need to defend it :)</p></li>
+<li><p>Save the updated .bash_profile and close it.</p></li>
+<li><p>Quit and reopen Terminal so that .bash_profile will be rerun (you could also run it explicitly, but I prefer quitting and reopening).</p></li>
+<li><p>Run the following command:</p>
+
+<p><code>bash
+echo $PATH
+</code></p>
+
+<p>You should see /usr/local/mysql/bin and /usr/local/sbin in there now.</p></li>
+<li><p><strong>Edit:</strong> Restart your computer. My installation worked without doing this, but Jon (in the comments) said he needed to do this before it worked, so you might as well.</p></li>
+</ol>
+
+
+<h2>Downloading + Installing</h2>
+
+<p>I might try compiling and installing from source at some point, but I don&#8217;t see any reason to when there are official OS X binaries available. Worst case scenario, it messes with a bunch of my settings, and I&#8217;ll uninstall and then do it from source.</p>
+
+<ol>
+<li>Go to http://dev.mysql.com/downloads/mysql/5.1.html#downloads</li>
+<li>Scroll down to the Mac OS X section (near the bottom). Download the version labeled &#8220;Mac OS X 10.5 (x86_64)&#8221;. <strong>It&#8217;s very important that you download the 64-bit version.</strong> The 32-bit one will give you preference pane problems (I call them PPPs whenever I talk about them, though this is the first time I ever have). Eventually, there&#8217;ll probably be a Mac OS X 10.6 version, but for now, this works perfectly.</li>
+<li>Open the .dmg, then run mysql-x.x.xx-osx10.5-x86_64.pkg. Continue through all the screens without changing anything, until it finishes.</li>
+<li>Optional: install the preference pane by running MySQL.prefPane.</li>
+<li>Optional: make MySQL start up along with OS X by running MySQLStartupItem.pkg. I didn&#8217;t do this (I often use my computer for things other than development, and I don&#8217;t want to bog it down unnecessarily), so I can&#8217;t provide any instruction or vouch for how well it works on Snow Leopard.</li>
+</ol>
+
+
+<p>You should now be able to start MySQL by going into the MySQL preference pane and clicking &#8220;Start MySQL Server&#8221;. If it doesn&#8217;t work, leave me a comment, and I&#8217;ll try to help you.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jake Boxer</span></span>
+
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-09-12T19:32:00-07:00" pubdate  data-updated="true" >Sep 12<span>th</span>, 2009</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jakeboxer.github.com/blog/2009/09/12/installing-mysql-on-snow-leopard/" data-via="jake_boxer" data-counturl="http://jakeboxer.github.com/blog/2009/09/12/installing-mysql-on-snow-leopard/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+    
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation's Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash's PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jakeboxer.github.com/blog/2009/09/12/installing-mysql-on-snow-leopard/';
+        var disqus_url = 'http://jakeboxer.github.com/blog/2009/09/12/installing-mysql-on-snow-leopard/';
+        var disqus_script = 'embed.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

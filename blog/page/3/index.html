@@ -1,0 +1,935 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="Early on at Cisco, I realized that it&#8217;s really beneficial to write down (step by step) what I&#8217;ve done when I install something new. It ...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/blog/page/3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/09/12/installing-mysql-on-snow-leopard/">Installing MySQL on Snow Leopard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-09-12T19:32:00-07:00" pubdate  data-updated="true" >Sep 12<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/09/12/installing-mysql-on-snow-leopard/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Early on at Cisco, I realized that it&#8217;s really beneficial to write down (step by step) what I&#8217;ve done when I install something new. It forces me to think about what I&#8217;m doing, it provides me with a guide in case I mess up and have to start over, and other people can benefit from it later.</p>
+
+<p>With that in mind, I&#8217;ve decided to document my installation of MySQL on Snow Leopard (OS X 10.6). Hopefully, someone will get some use out of it, but if not, at least I&#8217;ll have documentation of what I did.</p>
+
+<h2>The PATH Variable</h2>
+
+<p>MySQL has a bunch of useful executables that aren&#8217;t in PATH by default. I could symlink to them, but I think that&#8217;s less maintainable than just appending to PATH.</p>
+
+<ol>
+<li><p>Open the Terminal</p></li>
+<li><p>Open up the .bash_profile file in your home directory. This is a bash script that runs every time you start the Terminal, so the PATH variable will be extended properly every time. <strong>If you have TextMate and its UNIX command line tools installed</strong>, do it like this:</p>
+
+<p><code>bash
+mate ~/.bash_profile
+</code></p>
+
+<p>Otherwise, do it like this:</p>
+
+<p><code>bash
+/Applications/TextEdit.app/Contents/MacOS/TextEdit ~/.bash_profile &amp;
+</code></p>
+
+<p>If you use the second one, make sure to add the ampersand at the end.</p></li>
+<li><p>We want to add MySQL&#8217;s bin folder to PATH. MySQL&#8217;s going to be installed at /usr/local/mysql, so let&#8217;s add /usr/local/mysql/bin to PATH. Add the following line to .bash_profile:</p>
+
+<p><code>bash
+export PATH="/usr/local/mysql/bin:/usr/local/sbin:$PATH"
+</code></p>
+
+<p>This replaces PATH with two new locations and the old value of path (so essentially, appending the two new locations to the beginning of PATH). You&#8217;ll notice that, in addition to /usr/local/mysql/bin (which I mentioned earlier), I also added /usr/local/sbin. OS X doesn&#8217;t include this in PATH by default, but I think it should, so I added it. I have no defense for that position, but this is as much a guide for myself as it is a guide for other people, so I don&#8217;t need to defend it :)</p></li>
+<li><p>Save the updated .bash_profile and close it.</p></li>
+<li><p>Quit and reopen Terminal so that .bash_profile will be rerun (you could also run it explicitly, but I prefer quitting and reopening).</p></li>
+<li><p>Run the following command:</p>
+
+<p><code>bash
+echo $PATH
+</code></p>
+
+<p>You should see /usr/local/mysql/bin and /usr/local/sbin in there now.</p></li>
+<li><p><strong>Edit:</strong> Restart your computer. My installation worked without doing this, but Jon (in the comments) said he needed to do this before it worked, so you might as well.</p></li>
+</ol>
+
+
+<h2>Downloading + Installing</h2>
+
+<p>I might try compiling and installing from source at some point, but I don&#8217;t see any reason to when there are official OS X binaries available. Worst case scenario, it messes with a bunch of my settings, and I&#8217;ll uninstall and then do it from source.</p>
+
+<ol>
+<li>Go to http://dev.mysql.com/downloads/mysql/5.1.html#downloads</li>
+<li>Scroll down to the Mac OS X section (near the bottom). Download the version labeled &#8220;Mac OS X 10.5 (x86_64)&#8221;. <strong>It&#8217;s very important that you download the 64-bit version.</strong> The 32-bit one will give you preference pane problems (I call them PPPs whenever I talk about them, though this is the first time I ever have). Eventually, there&#8217;ll probably be a Mac OS X 10.6 version, but for now, this works perfectly.</li>
+<li>Open the .dmg, then run mysql-x.x.xx-osx10.5-x86_64.pkg. Continue through all the screens without changing anything, until it finishes.</li>
+<li>Optional: install the preference pane by running MySQL.prefPane.</li>
+<li>Optional: make MySQL start up along with OS X by running MySQLStartupItem.pkg. I didn&#8217;t do this (I often use my computer for things other than development, and I don&#8217;t want to bog it down unnecessarily), so I can&#8217;t provide any instruction or vouch for how well it works on Snow Leopard.</li>
+</ol>
+
+
+<p>You should now be able to start MySQL by going into the MySQL preference pane and clicking &#8220;Start MySQL Server&#8221;. If it doesn&#8217;t work, leave me a comment, and I&#8217;ll try to help you.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/05/18/django-middleware-vs-context-processors/">Django middleware vs. context processors</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-05-18T18:00:00-07:00" pubdate  data-updated="true" >May 18<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/05/18/django-middleware-vs-context-processors/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This may be old news to many people, but it&#8217;s something I just recently learned (after doing it wrong for about nine months), so I figured someone else may be able to benefit from my mistakes.</p>
+
+<p>For a long time, when I needed to access the currently logged-in user in one of my Django views, they would follow this pattern:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># some other view code</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">my_view</span> <span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">obj</span>     <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">SomeModel</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">obj_id</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># do some stuff, including:</span>
+</span><span class='line'>  <span class="n">some_function</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s">&quot;user&quot;</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;some_url_name&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;some_var&quot;</span><span class="p">:</span> <span class="n">some_val</span><span class="p">},</span>
+</span><span class='line'>    <span class="n">context_instance</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, seasoned Django vets (why are you reading this post, by the way?) are probably laughing, but this seemed perfectly fine to me.  Luckily, my ignorance was revealed to me while asking on IRC about a problem which, while didn&#8217;t seem so at the time, was completely tied to my misuse of RequestContext.</p>
+
+<p>To put it simply, context processors are made to be used in templates. The only time they should ever be instantiated is at the very end of a view, like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;some_url_name&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;some_var&quot;</span><span class="p">:</span> <span class="n">some_val</span><span class="p">},</span>
+</span><span class='line'>  <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I was using them all over views, and even in a few of my decorators. What&#8217;s wrong with this? The main thing is, certain mutation functions are sometimes performed when a RequestContext is instantiated (such as user.get_and_delete_messages(), which gets all of a user&#8217;s messages from the database and then deletes them), and performing them multiple times before loading the template can cause unexpected results.  In my example, I was instantiating a RequestContext in a bunch of decorators, which meant that by the time my template was loaded, all of the user&#8217;s messages were deleted (and stored in an earlier instance of RequestContext), making it look to me as if my auth messages were being thrown out.</p>
+
+<p>What&#8217;s the solution? Middleware. Middleware allows the programmer to attach variables to the request object before it reaches the view. With this (and the provided django.contrib.auth.middleware.AuthenticationMiddleware), I can still achieve my original goal (accessing the logged-in user from a view), but now I can do it without creating a RequestContext and potentially running mutation functions multiple times:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># some other view code</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">my_view</span> <span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">obj</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">SomeModel</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">obj_id</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># do some stuff, including:</span>
+</span><span class='line'>  <span class="n">some_function</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;some_url_name&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;some_var&quot;</span><span class="p">:</span> <span class="n">some_val</span><span class="p">},</span>
+</span><span class='line'>    <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&#8217;ve removed all the references to RequestContext from my decorators, and made sure to only instantiate it at the very end of views. Now, messages work perfectly. I&#8217;ve even written my own middleware (which you can learn how to do <a href="http://docs.djangoproject.com/en/dev/topics/http/middleware/">here</a>) to load instances of a few of my own models into the request.</p>
+
+<p>To reiterate, I&#8217;m aware that this is common knowledge for many people, but it took me 9 months of moderate Django use and embarrassment on IRC to discover it for myself. Hopefully, this will help someone else in a similar position.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/05/10/are-you-a-better-programmer-than-you-were-two-years-ago/">Are you a better programmer than you were two years ago?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-05-10T17:59:00-07:00" pubdate  data-updated="true" >May 10<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/05/10/are-you-a-better-programmer-than-you-were-two-years-ago/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Two years ago, I was working on a fairly complicated (for my level of experience) web app for posting news articles. Quite a few times, I ran into situations where I was about to create tight coupling between two somewhat unrelated parts of my app. Sometimes, I wouldn&#8217;t even recognize this as a problem. Other times, I would, but not be able to think of an easy fix, so I&#8217;d continue on.</p>
+
+<p>Today, I find myself fixing tightly-coupled situations almost instinctively. I use design patterns that I was barely aware of two years ago, and I do it without straying into &#8220;design pattern fever&#8221; territory. This isn&#8217;t to say I&#8217;m an expert at software design; it still takes a lot of thought to actually think of the best fix, and I&#8217;m sure I still make plenty of mistakes. My point is, my growth as a programmer is very obvious to me in these situations.</p>
+
+<p>How about you? If you&#8217;ve been programming for more than two years, you&#8217;re probably a better programmer than you were two years ago, but can you tell? If so, how can you tell? Can you give any good examples of moments when you realized it?</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/05/05/non-painful-email-on-django-development-servers/">Non-painful email on Django development servers</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-05-05T17:56:00-07:00" pubdate  data-updated="true" >May 5<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/05/05/non-painful-email-on-django-development-servers/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve been actively learning and using Django since August 2008, and I&#8217;ve loved almost every bit of it. There are plenty of places to read all about the virtues of Django, so I&#8217;ll leave that out for now.</p>
+
+<p>One thing that&#8217;s always bugged me about web development in general is the sending of emails. I do development on my local computer (with a badly set up Apache / MySQL / PHP / Python / whatever else stack), and I&#8217;ve never felt like dealing with the headache of setting up a mail server. This means, when I add something that&#8217;s supposed to send an email (like an activation email after registration), I have to get very hacky to test and debug it (making sure the email text is being produced correctly, making sure it&#8217;s being sent to and from the right people, etc.).</p>
+
+<p>This was one of the few web development pains that I thought Django didn&#8217;t solve. Whenever I&#8217;d test a bit of code that was supposed to send email, I&#8217;d get a &#8220;Connection refused&#8221; error page (meaning my computer has no mail server to send the email with). I would usually add in a bit of printf debugging to make sure the subject and body had the correct text, but beyond that, I&#8217;d usually wait to test the email portions until I uploaded to a server that could send email (usually the production server, unfortunately).</p>
+
+<p>Yesterday, I bumped into <a href="http://docs.djangoproject.com/en/dev/topics/email/#testing-e-mail-sending">a little section in the Django documentation that explains how to get around this</a>. As usual, Python has all the solutions. First, set this code in your settings.py file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">EMAIL_HOST</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+</span><span class='line'><span class="n">EMAIL_PORT</span> <span class="o">=</span> <span class="mi">1025</span> <span class="c"># replace this with some free port number on your machine</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, assuming you&#8217;re on a Unix system (I&#8217;m on a Mac), run the following on the command line to start a &#8220;dumb&#8221; Python mailserver:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>python -m smtpd -n -c DebuggingServer localhost:1025
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Make sure to replace 1025 with whatever you filled in for EMAIL_PORT.</p>
+
+<p>Now, try running the email-sending code in your Python application. Voila! No error pages (or at least, none related to email), and the full text of the email (headers and all) appears in whatever command line prompt you ran the dumb mailserver on. This allows you to the see senders, recipients, subject, and body of the email being sent out, all without getting hacky or sending to an email account you own.</p>
+
+<p>Taking this a step further, I created a small bash script called &#8220;dumbmail&#8221; in /usr/local/bin that looks like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env bash</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -z <span class="nv">$1</span> <span class="o">]</span>
+</span><span class='line'><span class="k">then </span><span class="nv">port</span><span class="o">=</span>1025
+</span><span class='line'><span class="k">else </span><span class="nv">port</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Starting dumb mail server on localhost:$port&quot;</span>
+</span><span class='line'>python -m smtpd -n -c DebuggingServer localhost:<span class="nv">$port</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, when I&#8217;m testing a Django application and I get to a section that is going to send an email, I just run &#8220;dumbmail&#8221; (or &#8220;dumbmail some_number&#8221; if I need to use a different port, for some reason I can&#8217;t imagine), and I&#8217;m ready to go.</p>
+
+<p>Hope this helps people. The documentation was always there - I just never noticed that part until yesterday.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/28/round-rectangles-or-why-steve-jobs-is-a-visionary/">Round Rectangles (or Why Steve Jobs Is a Visionary)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-04-28T17:54:00-07:00" pubdate  data-updated="true" >Apr 28<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/04/28/round-rectangles-or-why-steve-jobs-is-a-visionary/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A story was posted on <a href="http://www.folklore.org">Folklore.org</a> (a site full of old stories about the creation and initial development of Apple computers) about <a href="http://folklore.org/StoryView.py?project=Macintosh&amp;story=Round_Rects_Are_Everywhere.txt&amp;sortOrder=Sort%20by%20Date&amp;detail=medium&amp;search=round%20rect">the addition of rounded rectangles to an old drawing program</a>, and Steve Jobs&#8217;s involvement in them. This section in particular struck me:</p>
+
+<blockquote><p>Bill fired up his demo and it quickly filled the Lisa screen with randomly-sized ovals, faster than you thought was possible. But something was bothering Steve Jobs. &#8220;Well, circles and ovals are good, but how about drawing rectangles with rounded corners? Can we do that now, too?&#8221;</p>
+
+<p>&#8220;No, there&#8217;s no way to do that. In fact it would be really hard to do, and I don&#8217;t think we really need it&#8221;. I think Bill was a little miffed that Steve wasn&#8217;t raving over the fast ovals and still wanted more.</p>
+
+<p>Steve suddenly got more intense. &#8220;Rectangles with rounded corners are everywhere! Just look around this room!&#8221;. And sure enough, there were lots of them, like the whiteboard and some of the desks and tables. Then he pointed out the window. &#8220;And look outside, there&#8217;s even more, practically everywhere you look!&#8221;. He even persuaded Bill to take a quick walk around the block with him, pointing out every rectangle with rounded corners that he could find.</p>
+
+<p>When Steve and Bill passed a no-parking sign with rounded corners, it did the trick. &#8220;OK, I give up&#8221;, Bill pleaded. &#8220;I&#8217;ll see if it&#8217;s as hard as I thought.&#8221; He went back home to work on it.</p></blockquote>
+
+<p>I think this is a fantastic example of what makes Steve Jobs one of the few true visionaries in the world. In the face of a big advancement like fast ovals (yes, it was definitely a big deal at the time), I would&#8217;ve been more than satisfied. I may have asked for rounded rectangles in a second iteration, but it would&#8217;ve been a simple feature idea.  I believe most people would&#8217;ve reacted the same way.</p>
+
+<p>What makes Steve Jobs special is his ability to quickly identify what&#8217;s really important. It seems so obvious after the fact. Of course people would like computers with translucent colored cases! Of course minimalist controls would make for a more accessible and desirable MP3 player! Of course rounded rectangles are an extremely common shape, and are really important to have in a drawing program! These ideas (and more) are all obvious now. But a year before Apple did them, other companies were struggling to innovate in these fields, and they were only &#8220;obvious&#8221; to Steve Jobs.</p>
+
+<p>Of course, anyone can have a great idea that turns out to be the right way of doing things. This is why I distinguish between &#8220;true&#8221; and regular (false?) visionaries. People called M. Night Shyamalan a visionary after &#8220;The Sixth Sense&#8221; and &#8220;Unbreakable&#8221;. He then went on to make one more pretty good but decidedly un-visionary movie (Signs), an arguably good but decidedly un-visionary movie (The Village, which I loved, but I understand why others didn&#8217;t), and two duds (my apologies to the three people who liked them). The visionary label was applied to Shyamalan before he&#8217;d reached first base, and he got thrown out at second. This happens all the time, and these people are certainly not true visionaries.</p>
+
+<p>True visionaries come up with visionary ideas so consistently, that it becomes expected of them. And no one (off the top of my head) has a more consistent history of this than Steve Jobs.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/28/a-response-to-the-extreme-google-brain/">A response to &#8220;The Extreme Google Brain&#8221;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-04-28T17:48:00-07:00" pubdate  data-updated="true" >Apr 28<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/04/28/a-response-to-the-extreme-google-brain/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A blogger named Joe Clark just made a post called <a href="http://blog.fawny.org/2009/04/26/google-neuroanatomy/">The Extreme Google Brain</a>. In it, he takes a side on the recent <a href="http://stopdesign.com/archive/2009/03/20/goodbye-google.html">tiff between lead designer Douglas Bowman and Google</a>, where the former left the latter out of frustration at having to prove every design decision with real-world test data.</p>
+
+<p>Joe Clark whole-heartedly agrees with Bowman, as many others do (I myself am somewhat torn). However, I find Clark&#8217;s article to be a ridiculous rant, full of stereotyping, fact-inventing, name-calling, and other marks of awful opinion pieces.</p>
+
+<p>One frequently-used tactic in his piece is the inventing of a fact, followed by a single related fact that&#8217;s supposed to prove it.  Case in point:</p>
+
+<blockquote><p>Some of these boys and men exhibit extreme-male-brain tendencies, including an ability to focus obsessively for long periods of time, often on inanimate objects or abstractions (hence male domination of engineering and high-end law).</p></blockquote>
+
+<p>Yes, males dominate engineering and high-end law. However, the cause is the topic of endless debates, and yet Clark claims it&#8217;s due to &#8220;extreme-male-brain tendencies&#8221; like he read it in a science textbook.  This &#8220;here&#8217;s a fact I made up (hence an already-known, tangentially-related fact)&#8221; pattern repeats itself a few times.</p>
+
+<p>When he&#8217;s not making up facts, he&#8217;s stereotyping a group of tens of thousands of people based on the few he knows.</p>
+
+<blockquote><p>Apart from Bowman, I can think of only two Google employees I could stand to be around for longer than an elevator ride. My impression of “Googlers,” which I concede is based on little direct knowledge and is prejudicial on its face <em>[note: apologizing in advance does not make it okay to say something idiotic]</em>, is one of undersocialized, uncultured, pampered, arrogant faux-savants who have cultivated an arrested adolescence that the Google working environment further nurtures. Their computer-programming skills, the sole skills valued by the company, camouflage the flaws of their neuroanatomy. Their brains are beautifully suited to the genteel eugenics program that is the Google hiring process but are broken for real-world use.</p></blockquote>
+
+<p>You get the picture. Throughout the rest of the article, he:</p>
+
+<ul>
+<li>Contends that <a href="http://en.wikipedia.org/wiki/A/B_testing">A/B testing</a> has no value.</li>
+<li>Makes up scenarios that he believes (and &#8220;speculate[s] that Bowman would not disagree&#8221;) accurately represent Google meetings.</li>
+<li>Tells us that we can&#8217;t disagree with Bowman and still feel that technology juggernauts are becoming better at visual design.</li>
+<li>Says that when a company uses anti-design (extremely minimal and not-necessarily-beautiful designs such as Google or Craigslist) and succeeds, they&#8217;re succeeding <em>despite</em> the anti-design. He then concedes that can&#8217;t prove it, but assures that if you&#8217;re &#8220;visually literate&#8221; (which Adobe defines as the &#8220;ability to construct meaning from visual images&#8221;, which anyone older than an infant can consistently do), you &#8220;just know it&#8221;.</li>
+</ul>
+
+
+<p>There isn&#8217;t really much else to say about this. I&#8217;ve read quite a few articles that side with Bowman, and quite a few that side with Google, and many of them on each side were great articles with great points. This was not one of them. I&#8217;ve never heard of Joe Clark before, and based on this, I hope I never do again.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/02/cooking-like-my-mom/">Cooking like my Mom</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-04-02T17:47:00-07:00" pubdate  data-updated="true" >Apr 2<span>nd</span>, 2009</time>
+        
+         | <a href="/blog/2009/04/02/cooking-like-my-mom/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Every single holiday since I can remember, my mom has made a dish called <a href="http://en.wikipedia.org/wiki/Lokshen_kugel">Lokshen Kugel</a>. She makes it with egg noodles, cottage cheese, sour cream, and a bunch of sugar, vanilla, and cinnamon (as well as the standard eggs and stuff).</p>
+
+<p>Today, after getting the recipe from her, I made it myself.  The weirdest feeling was opening the oven halfway through. There was a dish I&#8217;d seen dozens of times before, but for the first time, it wasn&#8217;t in the oven at my house (the one I grew up in), and it was made by me instead of my mom. It was very surreal.</p>
+
+<p>I haven&#8217;t tasted it yet. But when I do, I&#8217;ll post about it again. I also took some pictures, so I&#8217;ll be sure to put them up (once I find the cord for my camera).</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/22/how-to-export-a-1024-x-768-screencast-from-adobe-premiere-pro-cs4-to-youtube/">How to export a 1024 X 768 screencast from Adobe Premiere Pro CS4 to Youtube</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-03-22T17:40:00-07:00" pubdate  data-updated="true" >Mar 22<span>nd</span>, 2009</time>
+        
+         | <a href="/blog/2009/03/22/how-to-export-a-1024-x-768-screencast-from-adobe-premiere-pro-cs4-to-youtube/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Over spring break, I made some screencasts for the <a href="http://www.umoch.org/">website</a> I maintain for my job. We used a free, open-source screen recorder called <a href="http://camstudio.org/">CamStudio</a>. Our plan was to upload them to YouTube and embed the videos into our site from there.  The one problem: the Export Media dialog on Adobe Premiere Pro CS4 (the software I used to edit the screencasts) only has a setting for low-definition (320x240) videos. My screencasts were 1024x768, and shrinking them to 320x240 would make the video part pretty much useless.</p>
+
+<p>So, I set about trying to find a setting that would work for a 1024x768 screencast. The majority of settings produced some weird-quality results, even with the quality settings turned up as high as possible, which makes me think it had something to do with a faulty interlacing/deinterlacing setting somewhere.  When I changed the one interlacing setting I was able to find, the exported videos would work fine in QuickTime, but look completely messed up in <a href="http://www.videolan.org/vlc/">VLC</a> and, more importantly, YouTube.</p>
+
+<p>Exporting to F4V actually did work in every media player I tried it in, but for some reason, YouTube was unable to convert it to a playable format.</p>
+
+<p>Finally, after about 9 hours of fiddling with Adobe Premiere Pro&#8217;s Export Media dialog, I found a setting of acceptable quality that worked on YouTube.  I doubt many other people will need this, but since I was unable to find any information about the problem I was having online, maybe I&#8217;ll save another person 9 hours of work.  Here are the settings I used:</p>
+
+<h2>Export Settings</h2>
+
+<p>Format: QuickTime</p>
+
+<h2>Filters</h2>
+
+<p>No Changes</p>
+
+<h2>Video</h2>
+
+<ul>
+<li>Video Codec: H.264</li>
+<li>Quality: 100</li>
+<li>Width: 1,024</li>
+<li>Height: 768</li>
+<li>(Width and Height are unlinked)</li>
+<li>Frame Rate: 30</li>
+<li>Field Type: Lower First <em>(this was the setting that deals with interlacing I believe)</em></li>
+<li>Aspect: Square Pixels (1.0)</li>
+<li>Render at Maximum Depth: Checked</li>
+<li>Set Key Frame Distance: Unchecked</li>
+<li>Optimize Stills: Checked</li>
+<li>Frame Reordering: Unchecked</li>
+<li>Set Bitrate: Unchecked</li>
+</ul>
+
+
+<h2>Audio</h2>
+
+<p>No Changes</p>
+
+<h2>Others</h2>
+
+<p>No Changes</p>
+
+<p>I&#8217;m sure there are some optimizations to be made in these settings; things that are causing me to produce unnecessarily large files, things that make rendering slower, or things that, if I tweaked, would give me even better quality. However, after 9 hours, I don&#8217;t care; this works, so for now, I&#8217;m done.  Hope this helps someone.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/17/benchmarking-python-decimal-vs-float/">Benchmarking Python decimal vs. float</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-03-17T17:19:00-07:00" pubdate  data-updated="true" >Mar 17<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/03/17/benchmarking-python-decimal-vs-float/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m writing a web app that includes, among other things, a good amount of (rational) non-integer numbers.  Whenever I&#8217;m in this situation, and I&#8217;m using a language that supports Decimals (as opposed to just floats and doubles), I always wonder which one I should use.</p>
+
+<p>If you&#8217;re a programmer, you understand the difference and the dilemma.  Floats/doubles are very fast, as all computers (built within the last 15 years) have hardware specifically made to deal with them.  However, they&#8217;re not perfectly accurate; because of binary representation, numbers that we use a lot (like 1/10 or 0.1) cause the same problems that 1/3 (0.33333&#8230;) cause in base 10.</p>
+
+<p>Decimals, on the other hand, are slow.  They are handled entirely in software, and thus take hundreds of instructions to do things that would take less than 10 with floats/doubles.  The upside is that they&#8217;re perfectly accurate; 0.1 is 0.1 is 0.1.</p>
+
+<p>So the question becomes twofold:</p>
+
+<ul>
+<li>Do I really need my numbers to be perfectly accurate?</li>
+<li>How much slower are decimals than floats/doubles?</li>
+</ul>
+
+
+<p>In my case, the accuracy would be nice, but not completely necessary. And thus, the latter question becomes important. I&#8217;m not writing a large application, and I don&#8217;t expect it to get too popular too quickly, so if the slowdown is only moderate, I&#8217;ll take the accuracy.</p>
+
+<p>To learn what the slowdown was, I wrote two quick Python test programs:</p>
+
+<figure class='code'><figcaption><span>Decimal test</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20000</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Float test</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>  <span class="c"># kept this in on the float version</span>
+</span><span class='line'>                             <span class="c"># so they&#39;d have the same overhead</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20000</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When I ran each of these with /usr/bin/time (which I just learned about a couple weeks ago, and has replaced counting seconds on my fingers as my favorite benchmarking tool), the decimal version took an average of about 1.5 seconds (over 10 runs), while the float version took an average of 0.5.  Just to make sure no overhead was getting in the way, I upped the limit to 40000 and ran it again. Decimal took 3.0 seconds, float 1.0. I can now confidently say that <strong>Python floats are about 3x the speed of Python decimals</strong>.</p>
+
+<p>Or are they? While this tests the creation and printing of decimals and floats, it doesn&#8217;t test mathematical operations.  So, I wrote two more tests.  I&#8217;m going to be doing a lot of division on these numbers, and that&#8217;s definitely the most expensive mathematical operation to compute, so I made sure to do it in the tests (along with some subtraction).</p>
+
+<figure class='code'><figcaption><span>Decimal version</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20002</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">/</span> <span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Float version</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20002</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This time, the float version averaged about 0.6 seconds (1.15 with 40,000 iterations instead of 20,000), while the decimal version averaged over 11 seconds (23 with 40,000 iterations instead of 20,000). So while Python float creation and printing is merely 3x as fast as Python decimal creation and printing, <strong>Python float division is almost 20x as fast as Python decimal division</strong>.</p>
+
+<p>So what did I choose? Decimals. In the context of these tests, the decimal slowdown may seem significant, but if I finished my app using decimals and profiled it, I can almost guarantee (based on the speeds here) that the bottleneck would not be decimal division performance. If I was running an app that was handling hundreds of simultaneous requests, I may consider switching (I may also spring for better hardware, but that&#8217;s a different topic). However, for my purpose, 1/20th the speed of floats is more than fast enough.</p>
+
+<p>P.S. As my very late discovery of /usr/bin/time should suggest, I&#8217;m extremely new to benchmarking. If anyone has any suggestions for me, or criticisms of my method, please leave your thoughts. This is something I&#8217;d like to get better at.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/12/scraping-the-bottom-of-the-developer-productivity-barrel/">Scraping the bottom of the &#8220;Developer Productivity&#8221; barrel</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2008-12-12T17:13:00-08:00" pubdate  data-updated="true" >Dec 12<span>th</span>, 2008</time>
+        
+         | <a href="/blog/2008/12/12/scraping-the-bottom-of-the-developer-productivity-barrel/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://codebetter.com/blogs/patricksmacchia/default.aspx">Patrick Smacchia</a> writes <a href="http://codebetter.com/blogs/patricksmacchia/archive/2008/12/04/solid-state-drive-enhance-developers-productivity.aspx">a blog post</a> about how buying a <a href="http://en.wikipedia.org/wiki/Solid_state_drive">Solid State Drive</a> will produce a worthwhile increase in developer productivity.</p>
+
+<p>He cites a few self-run benchmarks.  A couple are impressive: a certain build shaves off 2 minute and 14 seconds (a little under 50% faster), and running 1846 NUnit tests brings a 2 minute and 40 second process down to 37 seconds (about 80% faster).  The rest&#8230; not so much.  Most are cutting scant seconds off of already quick processes.</p>
+
+<p>I do believe that there are some expenditures that are worth it.  Developers spend 8 hours a day sitting, so buying them extremely comfortable chairs makes a huge difference.  Similarly, developers spend 8 hours a day looking at their monitors, and buying them each two large monitors allows them to keep their work and minds better organized.</p>
+
+<p>This SSD claim does not seem to pass muster.  Look at the difference. <a href="http://www.amazon.com/Intel-X25-M-Mainstream-2-5-Inch-Solid/dp/B001F4YIYY">An internal 80GB Intel SSD</a> costs $559.99.  How much does a normal 5400RPM internal 80GB drive cost? Well, I can get <a href="http://www.amazon.com/Western-Digital-7200RPM-CACHE-WD800BB/dp/B00006HQ3B/">this Western Digital one</a> for just over $40.00.</p>
+
+<p>That means the Intel one costs almost 14 times as much.  If I&#8217;m buying this for my developers, I want to make sure it&#8217;s cost-effective.  Let&#8217;s say I pay my developers an average of $52.00 per hour (to make the numbers easy).  That means, to justify the extra $520.00 I&#8217;m spending to get this SSD, it needs to save them 10 hours over the course of their time with me.  That&#8217;s 268 of those builds mentioned earlier, or 293 of those sets of NUnit tests.</p>
+
+<p>Is this an outrageous number?  No.  But it&#8217;s also not an obvious win, like buying a pair of large monitors or a comfortable chair.  It&#8217;s scraping the bottle of the barrel, to say the least.  Unless he&#8217;s got a super awesome chair, a couple 24-inch monitors, and all the other productivity staples, I&#8217;d say his money would be much better spent elsewhere.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <nav class="pagination">
+    <div>
+      
+        <a class="prev" href="/blog/page/4/">&larr; Older</a>
+      
+      <a href="/blog/archives">Blog Archives</a>
+      
+      <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+      
+    </div>
+  </nav>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation&#8217;s Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash&#8217;s PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        var disqus_script = 'count.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Django middleware vs. context processors - jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="This may be old news to many people, but it&#8217;s something I just recently learned (after doing it wrong for about nine months), so I figured so...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/blog/2009/05/18/django-middleware-vs-context-processors/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Django middleware vs. context processors</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-05-18T18:00:00-07:00" pubdate  data-updated="true" >May 18<span>th</span>, 2009</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This may be old news to many people, but it&#8217;s something I just recently learned (after doing it wrong for about nine months), so I figured someone else may be able to benefit from my mistakes.</p>
+
+<p>For a long time, when I needed to access the currently logged-in user in one of my Django views, they would follow this pattern:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># some other view code</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">my_view</span> <span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">obj</span>     <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">SomeModel</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">obj_id</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># do some stuff, including:</span>
+</span><span class='line'>  <span class="n">some_function</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s">&quot;user&quot;</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;some_url_name&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;some_var&quot;</span><span class="p">:</span> <span class="n">some_val</span><span class="p">},</span>
+</span><span class='line'>    <span class="n">context_instance</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, seasoned Django vets (why are you reading this post, by the way?) are probably laughing, but this seemed perfectly fine to me.  Luckily, my ignorance was revealed to me while asking on IRC about a problem which, while didn&#8217;t seem so at the time, was completely tied to my misuse of RequestContext.</p>
+
+<p>To put it simply, context processors are made to be used in templates. The only time they should ever be instantiated is at the very end of a view, like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;some_url_name&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;some_var&quot;</span><span class="p">:</span> <span class="n">some_val</span><span class="p">},</span>
+</span><span class='line'>  <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I was using them all over views, and even in a few of my decorators. What&#8217;s wrong with this? The main thing is, certain mutation functions are sometimes performed when a RequestContext is instantiated (such as user.get_and_delete_messages(), which gets all of a user&#8217;s messages from the database and then deletes them), and performing them multiple times before loading the template can cause unexpected results.  In my example, I was instantiating a RequestContext in a bunch of decorators, which meant that by the time my template was loaded, all of the user&#8217;s messages were deleted (and stored in an earlier instance of RequestContext), making it look to me as if my auth messages were being thrown out.</p>
+
+<p>What&#8217;s the solution? Middleware. Middleware allows the programmer to attach variables to the request object before it reaches the view. With this (and the provided django.contrib.auth.middleware.AuthenticationMiddleware), I can still achieve my original goal (accessing the logged-in user from a view), but now I can do it without creating a RequestContext and potentially running mutation functions multiple times:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># some other view code</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">my_view</span> <span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">obj</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">SomeModel</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">obj_id</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># do some stuff, including:</span>
+</span><span class='line'>  <span class="n">some_function</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;some_url_name&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;some_var&quot;</span><span class="p">:</span> <span class="n">some_val</span><span class="p">},</span>
+</span><span class='line'>    <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&#8217;ve removed all the references to RequestContext from my decorators, and made sure to only instantiate it at the very end of views. Now, messages work perfectly. I&#8217;ve even written my own middleware (which you can learn how to do <a href="http://docs.djangoproject.com/en/dev/topics/http/middleware/">here</a>) to load instances of a few of my own models into the request.</p>
+
+<p>To reiterate, I&#8217;m aware that this is common knowledge for many people, but it took me 9 months of moderate Django use and embarrassment on IRC to discover it for myself. Hopefully, this will help someone else in a similar position.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jake Boxer</span></span>
+
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2009-05-18T18:00:00-07:00" pubdate  data-updated="true" >May 18<span>th</span>, 2009</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jakeboxer.github.com/blog/2009/05/18/django-middleware-vs-context-processors/" data-via="jake_boxer" data-counturl="http://jakeboxer.github.com/blog/2009/05/18/django-middleware-vs-context-processors/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+    
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation's Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash's PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jakeboxer.github.com/blog/2009/05/18/django-middleware-vs-context-processors/';
+        var disqus_url = 'http://jakeboxer.github.com/blog/2009/05/18/django-middleware-vs-context-processors/';
+        var disqus_script = 'embed.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

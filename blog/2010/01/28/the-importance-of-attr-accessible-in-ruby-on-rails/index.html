@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The importance of attr_accessible in Ruby on Rails - jBoxer</title>
+  <meta name="author" content="Jake Boxer">
+
+  
+  <meta name="description" content="I&#8217;m sure this has been written about ad nauseum, but I spent some time yesterday explaining it to someone who didn&#8217;t understand, and no...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jakeboxer.github.com/blog/2010/01/28/the-importance-of-attr-accessible-in-ruby-on-rails/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="jBoxer" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">jBoxer</a></h1>
+  
+    <h2>I change the directions of small pieces of metal for a living.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jakeboxer.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The importance of attr_accessible in Ruby on Rails</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2010-01-28T20:27:00-08:00" pubdate  data-updated="true" >Jan 28<span>th</span>, 2010</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;m sure this has been written about ad nauseum, but I spent some time yesterday explaining it to someone who didn&#8217;t understand, and now I feel like writing it up a bit more formally.</p>
+
+<h2>What is attr_accessible?</h2>
+
+<p>In Ruby on Rails, <a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#M002281">attr_accessible</a> allows you to specify which attributes of a model can be altered via mass-assignment (most notably by <code>update_attributes(attrs)</code> and <code>new(attrs)</code>). Any attribute names you pass as parameters will be alterable via mass-assignment, and all others won&#8217;t be.</p>
+
+<h2>How does mass-assignment work normally?</h2>
+
+<p>By default, mass-assignment methods accept a hash of attribute values, each keyed by their associated attribute&#8217;s name. If I ran the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">({</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Harry Potter&#39;</span><span class="p">,</span> <span class="ss">:email</span> <span class="o">=&gt;</span> <span class="s1">&#39;hp@hogwarts.com&#39;</span> <span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A new instance of the <code>User</code> model would be created, and the <code>name</code> and <code>email</code> attributes would be set accordingly. It can also be used to alter related models. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+</span><span class='line'>  <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Albus Dumbledore&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:is_teacher</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:course_ids</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span> <span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In addition to creating a user with the appropriate attributes, this will update the specified courses to be owned by this user(assuming a user <code>has_many</code> courses in our app).</p>
+
+<h2>How can this be abused?</h2>
+
+<p>Very easily. What if someone did this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">({</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Draco Malfoy&#39;</span><span class="p">,</span> <span class="ss">:is_teacher</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This Draco Malfoy fellow may not actually be a teacher, but the system is none the wiser. Of course, the developer would never code this; in a real Rails app, the code is going to look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The elements in <code>params[:user]</code> are taken from the POST/GET/PUT data passed along when the action was run. They&#8217;re thrown blindly into the mass-assignment, and any attributes whose names match the keys will be set.</p>
+
+<p><em>&#8220;So what&#8217;s the big deal? Just don&#8217;t include an &#8216;is_teacher&#8217; field in the web form, and the param won&#8217;t be there.&#8221;</em> This is true for innocent users, but the malicious ones (and Draco Malfoy is definitely a malicious one) have an easy way around this. A web form is just a way to make it easy for users to pass data to your app. There are other ways. For example, if I wanted to register for the app via the command line instead of a browser, I could do it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -d <span class="s2">&quot;user[name]=Harry Potter&amp;user[email]=hp@hp.com&quot;</span> <span class="se">\</span>
+</span><span class='line'>    http://myapp.com/users/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This sends a request to <code>http://myapp.com/users/</code> and passes data in the exact format it would&#8217;ve appeared if I&#8217;d filled out a web form that asked for a name and email address. However, I could also do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -d <span class="se">\</span>
+</span><span class='line'>    <span class="s2">&quot;user[name]=Draco Malfoy&amp;user[email]=m@hp.com&amp;user[is_teacher]=1&quot;</span> <span class="se">\</span>
+</span><span class='line'>    http://myapp.com/users/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since <code>is_teacher</code> is an attribute name in my User model, and mass-assignment methods blindly accept whatever attributes they see, Draco Malfoy has just set himself a teacher.</p>
+
+<p>Even worse, I could use this to grab courses that may not be mine.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -d <span class="se">\</span>
+</span><span class='line'>    <span class="s2">&quot;user[name]=Draco Malfoy&amp;user[course_ids]=1&amp;user[course_ids]=2&quot;</span> <span class="se">\</span>
+</span><span class='line'>    http://myapp.com/users/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Draco Malfoy has now taken courses 1 and 2 away from whoever they originally belonged to (Dumbledore, if my memory serves me) and given them to himself.</p>
+
+<h2>How can we prevent this?</h2>
+
+<p>There are a few obvious but clumsy ways. We could skip mass assignment, setting each individual attribute in our controller, but this will introduce a lot of duplicate and unnecessary code. We could explicitly pull unwanted parameters out:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:is_teacher</span><span class="p">)</span>
+</span><span class='line'><span class="n">params</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:course_ids</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This also introduces a lot of duplicate code. If we ever add new columns that we want to restrict, or decide we want to unrestrict a column, we&#8217;re going to have to go through the <code>create</code> and <code>update</code> actions, and any others that perform mass assignment.</p>
+
+<p>We could factor these out into some sort of <code>sanitize_params</code> method on each model. This is a better solution, but you still have to call it in every action that alters the data. It&#8217;s definitely not as good as the built-in one: <code>attr_accessible</code>. We can add this to the top of the <code>User</code> model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">attr_accessible</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:email</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This white-lists <code>name</code> and <code>email</code>; these two attributes will be accepted from a mass-assignment method, while <em>all others</em> will be ignored. This is by far the safest way to do it; only attributes you&#8217;ve explicitly allowed (which hopefully means you&#8217;ve thought carefully about them) can be set by mass-assignment. This way, if some intern comes along and adds a bunch of dangerous columns or relations (<code>payment_accepted</code> or <code>horcruxes</code>, for example), no one has to think about updating the <code>sanitize</code> methods.</p>
+
+<h2>What does this <em>not</em> do?</h2>
+
+<p>I saw one person say &#8220;Why would I put anything in <code>attr_accessible</code>? Why would I want any of my attributes to be hackable?&#8221;</p>
+
+<p>Make no mistake: <code>attr_accessible</code> is no substitution for proper access control. If all users have write access to all other users, <code>attr_accessible</code> will let one user change another&#8217;s <code>name</code> attribute if it&#8217;s specified. Regular authentication and access control must be used to prevent users from writing to model instances that they shouldn&#8217;t be able to write to. Once this is done correctly, <code>attr_accessible</code> can be used to prevent a malicious user from altering data of her own that she shouldn&#8217;t be able to alter.</p>
+
+<p>To be more clear, it could be considered &#8220;hacking&#8221; if a user were able to change everyone&#8217;s <code>name</code> to &#8220;Voldemort&#8221;. <code>attr_accessible</code> can&#8217;t prevent this; you need to do proper authentication with something like <a href="http://github.com/binarylogic/authlogic">Authlogic</a>. Once you&#8217;ve set your controllers up to prevent a user from even attempting to change another user&#8217;s data, you&#8217;ve prevented this &#8220;hack&#8221;.</p>
+
+<p>If the user tries to change <em>his own</em> name to &#8220;Voldemort&#8221;, that&#8217;s totally fine. We don&#8217;t care if he does it via the web app, curl, or anything else; users are allowed to change their own name. Including <code>:name</code> in <code>attr_accessible</code> isn&#8217;t making it &#8220;hackable&#8221;, because it&#8217;s an attribute that users <code>should</code> be able to change.</p>
+
+<p>If the user tries to change his <code>is_teacher</code> attribute from <code>false</code> to <code>true</code>, that&#8217;s also considered &#8220;hacking&#8221;. We don&#8217;t want to let users do this, so we exclude <code>:is_teacher</code> from <code>attr_accessible</code> to prevent it.</p>
+
+<h2>Are attributes excluded from attr_accessible immutable?</h2>
+
+<p><strong>No. They can still be altered, just not via mass-assignment.</strong> If I exclude <code>is_teacher</code> from <code>attr_accessible</code>, and I go:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hagrid</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Rubeus Hagrid&#39;</span> <span class="p">})</span>
+</span><span class='line'><span class="n">hagrid</span><span class="o">.</span><span class="n">is_teacher</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">hagrid</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That will work just fine. The difference is, it forces you to set the attribute explicitly, so there&#8217;s no potential of accidentally setting an attribute unexpectedly passed to mass-assignment. This way, I can allow my non-dangerous attributes to be set via mass-assignment with <code>attr_accessible</code>, then explicitly provide or deny control over dangerous attributes in other actions.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jake Boxer</span></span>
+
+      
+
+
+
+
+
+  
+
+
+
+<time datetime="2010-01-28T20:27:00-08:00" pubdate  data-updated="true" >Jan 28<span>th</span>, 2010</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jakeboxer.github.com/blog/2010/01/28/the-importance-of-attr-accessible-in-ruby-on-rails/" data-via="jake_boxer" data-counturl="http://jakeboxer.github.com/blog/2010/01/28/the-importance-of-attr-accessible-in-ruby-on-rails/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+</div>
+
+    
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/15/changing-a-rails-3-project-name/">Changing a Rails 3 project name</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/">BostInnovation's Seth Priebatsch Article is Childish Garbage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash's PS1 Syntax: The Inspiration for Brainfuck?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jake_boxer", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jake_boxer" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @jake_boxer</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jake Boxer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+    (function () {
+      var disqus_shortname = 'jboxer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jakeboxer.github.com/blog/2010/01/28/the-importance-of-attr-accessible-in-ruby-on-rails/';
+        var disqus_url = 'http://jakeboxer.github.com/blog/2010/01/28/the-importance-of-attr-accessible-in-ruby-on-rails/';
+        var disqus_script = 'embed.js'
+      
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-9253249-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

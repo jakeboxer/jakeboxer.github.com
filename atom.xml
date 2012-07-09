@@ -1,0 +1,1430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>jBoxer</title>
+  <link href="http://jakeboxer.github.com/atom.xml" rel="self"/>
+  <link href="http://jakeboxer.github.com/"/>
+  <updated>2012-07-09T16:22:21-07:00</updated>
+  <id>http://jakeboxer.github.com/</id>
+  <author>
+    <name>Jake Boxer</name>
+    
+  </author>
+
+  
+  <entry>
+    <title>Converting to the new RSpec 2.11 expectation syntax</title>
+    <link href="http://jakeboxer.github.com/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/"/>
+    <updated>2012-07-09T15:28:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax</id>
+    <content type="html">&lt;p&gt;&lt;a href=&quot;http://blog.davidchelimsky.net/2012/07/07/rspec-211-is-released/&quot;&gt;RSpec 2.11&lt;/a&gt; was released a few days ago. The biggest change is &lt;a href=&quot;http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax&quot;&gt;a brand new expectation syntax&lt;/a&gt; by &lt;a href=&quot;http://myronmars.to/n/dev-blog&quot;&gt;Myron Marston&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, instead of writing this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Old expectation syntax&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should_not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;You can write this&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;New expectation syntax&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;not_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;a href=&quot;http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax&quot;&gt;Myron&amp;#8217;s blog post&lt;/a&gt; does a fantastic job explaining why this is better. To summarize:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;RSpec does not own every object in the system, so it cannot add the &lt;code&gt;should&lt;/code&gt; and &lt;code&gt;should_not&lt;/code&gt; methods to every object. This can lead to some really confusing errors. Using &lt;code&gt;expect&lt;/code&gt; works around this.&lt;/li&gt;
+&lt;li&gt;Block expectations already used the &lt;code&gt;expect&lt;/code&gt; syntax out of necessity. The inconsistent syntax made it harder to read specs that used both. Using &lt;code&gt;expect&lt;/code&gt; for normal expectations unifies the syntax, making these specs much more readable.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;What follows is a step-by-step guide to convert all your specs from the old syntax to the new one as quickly as possible.&lt;/p&gt;
+
+&lt;h2&gt;Change all equality operator matchers&lt;/h2&gt;
+
+&lt;p&gt;The new expectation syntax does not support &lt;code&gt;foo.should == bar&lt;/code&gt;. You need to do &lt;code&gt;expect(foo).to eq(bar)&lt;/code&gt;. So, go through all your specs and make this change.&lt;/p&gt;
+
+&lt;p&gt;You can use this regular expression:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Regular expressions for replacing == with eq()&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Note that these both start with a leading space. Don&amp;#39;t forget them, or they won&amp;#39;t work.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Find&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;sr&quot;&gt;/ == (.*)$/&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Replace  &lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;sr&quot;&gt;/ eq($1)/&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;For global find/replace stuff, I prefer to open and editor and click &amp;#8220;Replace&amp;#8221; over and over. It&amp;#8217;s slower, but I don&amp;#8217;t have to track down mistakes afterwards, and I get to improve my regex as I go. Feel free to do it however you want, but make sure to check your diff afterwards.&lt;/p&gt;
+
+&lt;p&gt;Once you&amp;#8217;re done, re-run your specs and make sure everything is still passing. Note that we haven&amp;#8217;t yet changed &lt;code&gt;should&lt;/code&gt; to &lt;code&gt;expect&lt;/code&gt;, so everything should be passing.&lt;/p&gt;
+
+&lt;h2&gt;Change other unsupported operator matchers&lt;/h2&gt;
+
+&lt;p&gt;These should be rare enough that you don&amp;#8217;t need a regex. If you do, write it and send it to me, and I&amp;#8217;ll include it in here and give you credit.&lt;/p&gt;
+
+&lt;p&gt;Go through all your specs and make these changes:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Unsupported operator matcher replacements&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;11&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Regex matching&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;a string&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/a str[iou]ng/&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Old, bad.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;a string&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/a str[iou]ng/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# New, good.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Matching array contents while ignoring order&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Old, bad.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;match_array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# New, good.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Comparison matchers (do this with ALL matchers: &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;=)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Old, very bad. You should never have been using this.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# New, good&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Re-run your specs and make sure everything is still passing.&lt;/p&gt;
+
+&lt;h2&gt;Disallow &amp;#8220;should&amp;#8221; from your specs&lt;/h2&gt;
+
+&lt;p&gt;Open your &lt;code&gt;spec/spec_helper.rb&lt;/code&gt; file and add the following lines to your configuration block:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;spec/spec_helper.rb&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;configure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# .. other stuff&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;c1&quot;&gt;# Add all three of these lines:&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expect_with&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:rspec&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;syntax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:expect&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# .. other stuff&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This will stop RSpec from adding &lt;code&gt;should&lt;/code&gt; to all objects. Make sure you add all three lines; I didn&amp;#8217;t realize it was within a block at first, and got errors.&lt;/p&gt;
+
+&lt;p&gt;If you run your specs now, pretty much everything should fail.&lt;/p&gt;
+
+&lt;h2&gt;Replace should and should_not with expect&lt;/h2&gt;
+
+&lt;p&gt;This is the most tedious part. Luckily, I came up with a regex that works for both &lt;code&gt;should&lt;/code&gt; and &lt;code&gt;should_not&lt;/code&gt;. Here it is:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Regular expressions for replacing should/should_not with expect&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Find&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;sr&quot;&gt;/^(\s+)(.*(?=.should))&#46;should(_)?(not)? (.*)$/&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Replace&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;sr&quot;&gt;/$1expect($2).$4$3to $5/&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;One caveat: this will &lt;em&gt;not work&lt;/em&gt; for expectations that aren&amp;#8217;t on their own line. Example (using &lt;a href=&quot;https://github.com/jnicklas/capybara&quot;&gt;Capybara&lt;/a&gt;)&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Working and non-working examples for regex&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Regex WON&amp;#39;T find/replace properly&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;within&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#header&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;have_content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;About&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Regex WILL find/replace properly&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;within&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;#header&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;have_content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;About&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;The first example won&amp;#8217;t work, because the expectation comes after &lt;code&gt;within(&#8216;#header&#8217;) {&lt;/code&gt;. The second will work, because the expectation is on its own line.&lt;/p&gt;
+
+&lt;p&gt;So, like I said above, don&amp;#8217;t just do one &amp;#8220;Replace All&amp;#8221;; click the &amp;#8220;Replace&amp;#8221; button in your editor over and over, so you can spot these broken cases and fix them manually.&lt;/p&gt;
+
+&lt;p&gt;I tried for awhile to fix these broken cases, but I&amp;#8217;m pretty sure it&amp;#8217;s not possible via regex. If someone can prove me wrong, I&amp;#8217;d love to update this guide and give you credit.&lt;/p&gt;
+
+&lt;p&gt;After doing this in all your specs, re-run them. Everything should pass. If not, comment, and I can try to help you figure out what&amp;#8217;s up.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Changing a Rails 3 project name</title>
+    <link href="http://jakeboxer.github.com/blog/2012/03/15/changing-a-rails-3-project-name/"/>
+    <updated>2012-03-15T12:00:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2012/03/15/changing-a-rails-3-project-name</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;ve had to change Rails 3 project names a few times now. It&amp;#8217;s too bad there&amp;#8217;s no &lt;code&gt;rake&lt;/code&gt; command for it. Here&amp;#8217;s the next best thing: a step-by-step guide.&lt;/p&gt;
+
+&lt;p&gt;For the sake of this example, let&amp;#8217;s say I&amp;#8217;m changing my name name from &amp;#8220;Teach&amp;#8221; to &amp;#8220;Learn&amp;#8221;.&lt;/p&gt;
+
+&lt;h2&gt;Update your app&amp;#8217;s module name&lt;/h2&gt;
+
+&lt;p&gt;In &lt;code&gt;/config/application.rb&lt;/code&gt;, change the name of the module:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config/application.rb&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Learn&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be `module Teach`&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &lt;span class=&quot;c1&quot;&gt;# &#8230;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;h2&gt;Update references to your app&amp;#8217;s module name&lt;/h2&gt;
+
+&lt;p&gt;Your app&amp;#8217;s module name should appear in &lt;code&gt;/config.ru&lt;/code&gt;:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config.ru&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# This file is used by Rack-based servers to start the application.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expand_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;../config/environment&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;bp&quot;&gt;__FILE__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Learn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be `run Teach::Application`&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;And in &lt;code&gt;/Rakefile&lt;/code&gt;:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/Rakefile&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/env rake&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Add your own tasks in files placed in lib/tasks ending in .rake,&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expand_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;../config/application&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;__FILE__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;Learn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_tasks&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be `Teach::Application.load_tasks`&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Your app&amp;#8217;s module name should also appear in a bunch of files under the &lt;code&gt;/config&lt;/code&gt; directory. It should appear in &lt;code&gt;/config/environments.rb&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config/environments.rb&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Initialize the rails application&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;Learn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;initialize!&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be `Teach::Application.initialize!`&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;It should also appear in all the environment-specific configurations in &lt;code&gt;/config/environments/*.rb&lt;/code&gt; (which should be &lt;code&gt;development.rb&lt;/code&gt;, &lt;code&gt;production.rb&lt;/code&gt;, &lt;code&gt;test.rb&lt;/code&gt;, and any other environments you have configured). Change them all:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config/environments/*.rb&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;Learn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;configure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be `Teach::Application.configure do`&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;c1&quot;&gt;# Settings specified here will take precedence over those in config/application.rb&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;c1&quot;&gt;# &#8230;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;And in your initializers (under &lt;code&gt;/config/initializers/&lt;/code&gt;). At the very least, &lt;code&gt;/config/initializers/secret_token.rb&lt;/code&gt; and &lt;code&gt;/config/initializers/session_store.rb&lt;/code&gt; should have it:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config/initializers/secret_token.rb&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Your secret key for verifying the integrity of signed cookies.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# If you change this key, all old signed cookies will become invalid!&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Make sure the secret is at least 30 characters and all random,&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# no regular words or you&amp;#39;ll be exposed to dictionary attacks.&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;Learn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;secret_token&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;garbagestring&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Used to start with `Teach::Application`&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config/initializers/session_store.rb&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;Learn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;session_store&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:cookie_store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;_learn_session&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Use the database for sessions instead of the cookie-based default,&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# which shouldn&amp;#39;t be used to store highly confidential information&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# (create the session table with &amp;quot;rails generate session_migration&amp;quot;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# Learn::Application.config.session_store :active_record_store&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# For the sake of cleanliness, I changed it from `Teach::Application` in both the actual&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;# line of code and the comment. Also, `:key` used to be &amp;#39;_teach_session&amp;#39;.&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;And in your &lt;code&gt;/config/routes.rb&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config/routes.rb&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;Learn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;routes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;draw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be Teach::Application.routes.draw&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;c1&quot;&gt;# Routes in here&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Finally, for consistency&amp;#8217;s sake, if the names of your databases include your app name, you should update those in &lt;code&gt;/config/database.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;/config/database.yml&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;11&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;12&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;13&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;14&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;15&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;16&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;17&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;18&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;19&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;20&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;21&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;22&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;23&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;yaml&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;development&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;adapter&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;mysql2&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;utf8&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;reconnect&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;learn_development&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be teach_development&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;root&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;adapter&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;mysql2&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;utf8&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;reconnect&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;learn_test&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be teach_test&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;root&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;production&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;adapter&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;mysql2&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;utf8&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;reconnect&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;learn_production&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Used to be teach_production&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;root&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;h2&gt;Search your app and lib folders&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;grep&lt;/code&gt; through your &lt;code&gt;/app&lt;/code&gt; and &lt;code&gt;/lib&lt;/code&gt; folders to find any mentions of your project name and change them. This might be a little tedious if you have a name that conflicts with a bunch of Ruby/Rails stuff (like &amp;#8220;def&amp;#8221; or something stupid like that), but you only have to do it once.&lt;/p&gt;
+
+&lt;h2&gt;Done!&lt;/h2&gt;
+
+&lt;p&gt;That&amp;#8217;s it! Now you have a renamed Rails 3 app.&lt;/p&gt;
+
+&lt;p&gt;Note: I did this on Rails 3.2.1. It&amp;#8217;s possible some things will be different on other versions.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>BostInnovation&#8217;s Seth Priebatsch Article is Childish Garbage</title>
+    <link href="http://jakeboxer.github.com/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage/"/>
+    <updated>2011-11-16T13:04:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2011/11/16/bostinnovations-seth-priebatsch-article-is-childish-garbage</id>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: I was SCVNGR&amp;#8217;s lead iOS developer for almost two years. I started a new job at GitHub last month. This is neither a critique nor a defense of the actions or words of Seth Priebatsch or SCVNGR.&lt;/p&gt;
+
+&lt;p&gt;Today, BostInnovation published an article called &lt;a href=&quot;http://bostinnovation.com/2011/11/16/seth-priebatsch-thinks-everyone-at-bostinno-is-painfully-stupid-really-internal-email/&quot;&gt;Seth Priebatsch Thinks Everyone at BostInno is Painfully Stupid… Really?&lt;/a&gt;. In it, they publish an internal SCVNGR email in which Seth insults them, then spend the rest of the article defending themselves from his insults and offering him advice on how to have fun and run a company.&lt;/p&gt;
+
+&lt;p&gt;Like most media outlets, I have mixed feelings about BostInnovation. The article in question, however, is childish garbage.&lt;/p&gt;
+
+&lt;p&gt;The are some points to be made here that anyone who is techy enough to read BostInnovation knows. There&amp;#8217;s no way to prove this email is real. There&amp;#8217;s no way to prove that the &amp;#8220;leaker&amp;#8221; didn&amp;#8217;t tweak it. But those aren&amp;#8217;t the important part.&lt;/p&gt;
+
+&lt;p&gt;The important part is, this was an internal email. Were it not for BostInnovation, under 100 people would&amp;#8217;ve read it, all of whom work for SCVNGR. This email was no threat to BostInnovation&amp;#8217;s readership. This is reminiscent of elementary school kids intercepting a passed note and reading it out loud to all their friends.&lt;/p&gt;
+
+&lt;p&gt;If the focus of this article was &amp;#8220;Seth is lying to the media and investors,&amp;#8221; that would be a different story (and would require significantly more evidence). I would still be a bit off-put by the publishing of an internal email in a private company, but at least that would be news worth reading. Instead, the focus is &amp;#8220;CEO of company thinks we&amp;#8217;re dumb, so here&amp;#8217;s why he&amp;#8217;s weird and mean.&amp;#8221; If I were an advertiser on BostInnovation, I would be pretty upset with this.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Bash&#8217;s PS1 Syntax: The Inspiration for Brainfuck?</title>
+    <link href="http://jakeboxer.github.com/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/"/>
+    <updated>2011-11-06T19:24:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck</id>
+    <content type="html">&lt;p&gt;I just spent way too much time struggling to get my Bash &lt;code&gt;PS1&lt;/code&gt; variable working right. Originally, it looked like this (&lt;code&gt;parse_git_branch&lt;/code&gt; is a Bash function I have defined elsewhere):&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Old PS1&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nv&quot;&gt;PS1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;\w\e[35m\$(parse_git_branch)\e[m &amp;gt; &amp;quot;&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Now, it looks like this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;New PS1&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nv&quot;&gt;PS1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;\w\[\e[35m\]\$(parse_git_branch)\[\e[m\] &amp;gt; &amp;quot;&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;The difference? I wasn&amp;#8217;t escaping my color codes correctly, which was causing Terminal to wrap long commands onto the beginning of the same line.&lt;/p&gt;
+
+&lt;p&gt;Let me break down Bash&amp;#8217;s color code syntax, because it makes me so angry. A minimal Bash color code looks like this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Minimal Bash color code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;text&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;\e[1;30m
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;code&gt;\e[&lt;/code&gt; means &amp;#8220;here comes a color code&amp;#8221; I guess.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;1&lt;/code&gt; means &amp;#8220;make it bold&amp;#8221;. If you don&amp;#8217;t want bold, leave it out.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;;&lt;/code&gt; means &amp;#8220;I&amp;#8217;m finished telling you that this is bold&amp;#8221;. If you don&amp;#8217;t want bold, or if you want default-colored text (explained below), leave it out.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;30&lt;/code&gt; means &amp;#8220;dark gray&amp;#8221;. Here&amp;#8217;s an exhaustive list of valid numbers (no number means default color):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;30&lt;/code&gt; = dark gray&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;31&lt;/code&gt; = red&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;32&lt;/code&gt; = green&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;33&lt;/code&gt; = yellow&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;34&lt;/code&gt; = blue&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;35&lt;/code&gt; = purple&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;36&lt;/code&gt; = turquoise&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;37&lt;/code&gt; = light gray&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;0-29 don&amp;#8217;t do anything (at least in Terminal.app on OS X 10.7.2). No idea why they start at 30.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;m&lt;/code&gt; means &amp;#8220;my color code is over&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;If you match that format, all subsequent characters will be that color (until you define another color code).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;But that&amp;#8217;s not all!&lt;/strong&gt; This sequence is escaped incorrectly. If you have it in your PS1, Terminal will look correct on startup, but if you type a long command that wraps past the first line, Terminal will wrap it back to the beginning of the line you&amp;#8217;re on and start overwriting characters.&lt;/p&gt;
+
+&lt;p&gt;I bet you think the fix is to match the open square bracket with a closed one, right? If so, give yourself a half pat on the back, then punch yourself in the face. Here&amp;#8217;s how to escape it correctly.&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;How to escape a Bash color code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;text&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;\e[1;30m     # Wrong
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;\[\e[1:30m\] # Right
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;You need to close match the open bracket (with an escaped close bracket), but also add &lt;em&gt;another&lt;/em&gt; open (escaped) bracket to the front, also with no closer.&lt;/p&gt;
+
+&lt;p&gt;Anyone wanna educate me on the reason for all this madness? Right now, it just feels like some dude thought regular expression and strftime syntax were too verbose.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Using acts_as_list in a polymorphic scope</title>
+    <link href="http://jakeboxer.github.com/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/"/>
+    <updated>2011-10-09T15:52:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope</id>
+    <content type="html">&lt;p&gt;If you&amp;#8217;re using &lt;a href=&quot;https://github.com/swanandp/acts_as_list&quot;&gt;acts_as_list&lt;/a&gt; in a polymorphic scope, you need to define the scope a little bit differently to make everything work right.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;#8217;s the non-polymorphic example from acts_as_list&amp;#8217;s README:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;acts_as_list in a normal (non-polymorphic) scope&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TodoItem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:todo_list&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;acts_as_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:todo_list&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Note the single-item scope&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;We pass &lt;code&gt;:todo_list&lt;/code&gt; as the &lt;code&gt;scope&lt;/code&gt; (which &lt;code&gt;acts_as_list&lt;/code&gt; converts to the &lt;code&gt;todo_list_id&lt;/code&gt; column).&lt;/p&gt;
+
+&lt;p&gt;Now, let&amp;#8217;s say we&amp;#8217;re making a polymorphic &lt;code&gt;Picture&lt;/code&gt; model (like in &lt;a href=&quot;http://guides.rubyonrails.org/association_basics.html#polymorphic-associations&quot;&gt;the Polymorphic Associations section of the Ruby on Rails Guides&lt;/a&gt;), and we want pictures to be sortable and reorderable. Here&amp;#8217;s &lt;strong&gt;the right way to do it&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;acts_as_list in a polymorphic scope (the RIGHT way)&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Picture&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polymorphic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;acts_as_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:imageable_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+
+
+&lt;!&#8211; more &#8211;&gt;
+
+
+&lt;p&gt;Note how, in the &lt;code&gt;Picture&lt;/code&gt; model, the &lt;code&gt;scope&lt;/code&gt; we pass to &lt;code&gt;acts_as_list&lt;/code&gt; is an array of the two columns that make up the polymorphic association. If we were to follow our template from &lt;code&gt;TodoItem&lt;/code&gt; and do it this way:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;acts_as_list in a polymorphic scope (the WRONG way)&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Picture&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polymorphic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;acts_as_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Everything would run correctly, but &lt;code&gt;imageable&lt;/code&gt;s with the same ID and different types would have some problems. Specifically, determining which pictures are first and last:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Bugs caused by using acts_as_list in a polymorphic scope the WRONG way&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;11&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;12&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;13&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;14&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;15&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;16&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;17&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;18&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;19&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;20&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;21&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;22&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;23&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;24&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Picture&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polymorphic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;acts_as_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Employee&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:pictures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Product&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:pictures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Employee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;# employee1 is an Employee with id=1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Employee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;# employee2 is an Employee with id=2&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;product1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Product&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# product1 is a Product with id=1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# Create a new picture on employee 1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# Create a new picture on employee 2&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;product1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;# Create a new picture on product 1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;employee1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last?&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# false, unexpected&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;employee2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last?&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;product1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last?&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# true&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Since each &lt;code&gt;imageable&lt;/code&gt; has only one &lt;code&gt;Picture&lt;/code&gt;, &lt;code&gt;last?&lt;/code&gt; (an &lt;code&gt;acts_as_list&lt;/code&gt; method that checks if the item is the last one in scope) should return &lt;code&gt;true&lt;/code&gt; for all three. But, the first line says &lt;code&gt;false&lt;/code&gt;. Since we&amp;#8217;re only telling &lt;code&gt;acts_as_list&lt;/code&gt; to scope on &lt;code&gt;:imageable&lt;/code&gt; (which it converts to &lt;code&gt;imageable_id&lt;/code&gt;), it has no way of telling between the &lt;code&gt;Employee&lt;/code&gt; with an &lt;code&gt;id&lt;/code&gt; of 1 and the &lt;code&gt;Product&lt;/code&gt; with an &lt;code&gt;id&lt;/code&gt; of 1. So, it thinks that Employee 1&amp;#8217;s picture belongs to the same record as Product 1&amp;#8217;s picture, and thus, thinks that only Product 1&amp;#8217;s picture is &lt;code&gt;last?&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you tell &lt;code&gt;acts_as_list&lt;/code&gt; the full story, it won&amp;#8217;t get confused:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Correct results from using acts_as_list in a polymorphic scope the RIGHT way&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;11&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;12&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;13&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;14&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;15&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;16&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;17&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;18&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;19&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;20&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;21&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;22&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;23&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;24&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Picture&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polymorphic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;acts_as_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:imageable_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Employee&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:pictures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Product&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:pictures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:imageable&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Employee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;# employee1 is an Employee with id=1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Employee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;# employee2 is an Employee with id=2&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;product1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Product&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# product1 is a Product with id=1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# Create a new picture on employee 1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;employee2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# Create a new picture on employee 2&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;product1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;# Create a new picture on product 1&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;employee1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last?&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;employee2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last?&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;product1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pictures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last?&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# true&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Now that &lt;code&gt;acts_as_list&lt;/code&gt; knows to look at both the &lt;code&gt;imageable_id&lt;/code&gt; and the &lt;code&gt;imageable_type&lt;/code&gt;, it can tell the difference between Employee 1 and Product 1, and returns &lt;code&gt;true&lt;/code&gt; for all three &lt;code&gt;last?&lt;/code&gt;s, as expected.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>My pre-ARC Objective-C memory management conventions</title>
+    <link href="http://jakeboxer.github.com/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions/"/>
+    <updated>2011-10-03T12:06:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2011/10/03/my-pre-arc-objective-c-memory-management-conventions</id>
+    <content type="html">&lt;p&gt;iOS 5 is coming soon, and introduces ARC. ARC will make Objective-C memory management significantly simpler. But, it will be a long time before iOS 5 is ubiquitous, and I&amp;#8217;m not sold on the subset of ARC that will be available for iOS 4. So, in the meantime, I thought people might benefit from seeing the conventions I use to keep Objective-C memory management simple. Most iOS developers probably already follow something close to this, but it doesn&amp;#8217;t hurt to have it written out.&lt;/p&gt;
+
+&lt;p&gt;If you follow these five simple rules, you should pretty much never get a memory leak or a crash from over-releasing.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1&gt;1. Always declare @properties for your object instance variables&lt;/h1&gt;
+
+&lt;p&gt;If you&amp;#8217;re putting an instance variable on a class and it&amp;#8217;s an object, declare a property for it.&lt;/p&gt;
+
+&lt;!&#8211; more &#8211;&gt;
+
+
+
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Declaring properties&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;objc&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyObject&lt;/span&gt; : &lt;span class=&quot;nc&quot;&gt;NSObject&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@property&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonatomic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSDate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someDate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@property&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonatomic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AVPlayerLayer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someLayer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@property&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonatomic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSMutableArray&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMutableArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@property&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonatomic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@property&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonatomic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSArray&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someImmutableArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@property&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonatomic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;assign&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MyObjectDelegate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;By default, you should always declare your object properties as &lt;code&gt;retain&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;#8217;re declaring a property for an object that&amp;#8217;s expected to be immutable, but has a mutable subclass (for example, if you&amp;#8217;re declaring an &lt;code&gt;NSArray&lt;/code&gt; property, which has the &lt;code&gt;NSMutableArray&lt;/code&gt; subclass), declare it as &lt;code&gt;copy&lt;/code&gt; instead of &lt;code&gt;retain&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;#8217;re declaring a property for an object that is &lt;em&gt;guaranteed&lt;/em&gt; to be retained elsewhere (for example, a delegate, or something that you&amp;#8217;re also storing in an array and just need a convenient shortcut to), you can declare it &lt;code&gt;assign&lt;/code&gt;. Be very careful with this though. If you&amp;#8217;re unsure, just do &lt;code&gt;retain&lt;/code&gt; or &lt;code&gt;copy&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You&amp;#8217;ll also need to &lt;code&gt;@synthesize&lt;/code&gt; all these properties in your &lt;code&gt;@implementation&lt;/code&gt;:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Synthesizing properties&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;11&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;12&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;objc&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@implementation&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyObject&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someDate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someLayer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMutableArray&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someImmutableArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;// &#8230;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Finally, you&amp;#8217;ll need to release all of the &lt;code&gt;retain&lt;/code&gt; and &lt;code&gt;copy&lt;/code&gt; properties (but &lt;em&gt;not&lt;/em&gt; the &lt;code&gt;assign&lt;/code&gt; properties) in your &lt;code&gt;dealloc&lt;/code&gt;. This is the &lt;em&gt;only place in your code&lt;/em&gt; where you should refer to your properties without &lt;code&gt;self.&lt;/code&gt; (which means you&amp;#8217;re actually accessing the instance variables rather than the properties).&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;Releasing properties&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;8&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;9&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;10&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;11&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;12&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;objc&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;@implementation&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyObject&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;c1&quot;&gt;// &#8230;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dealloc&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someDate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Note that we&amp;#39;re using someDate, not self.someDate&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someLayer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someMutableArray&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someString&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someImmutableArray&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;c1&quot;&gt;// Note that we aren&amp;#39;t releasing delegate&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;h1&gt;2. Always use &lt;code&gt;self&lt;/code&gt; when accessing a property&lt;/h1&gt;
+
+&lt;p&gt;If you don&amp;#8217;t use &lt;code&gt;self&lt;/code&gt;, you will be accessing the underlying instance variable directly, rather than going through the @synthesized getter/setter.&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;objc&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someImmutableArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSArray&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// Correct!&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;printing array: %@&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someImmutableArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Correct!&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;someImmutableArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSArray&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;                  &lt;span class=&quot;c1&quot;&gt;// WRONG&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;printing array: %@&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someImmutableArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;// WRONG&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;If you skip the @synthesized getter/setter, you skip the memory management rules you defined in your &lt;code&gt;@property&lt;/code&gt;, which will lead to problems. The only exception to this is mentioned in rule 1: in your &lt;code&gt;dealloc&lt;/code&gt; method, when releasing the object.&lt;/p&gt;
+
+&lt;h1&gt;3. Make sure all newly-created objects are autoreleased&lt;/h1&gt;
+
+&lt;p&gt;There is a bit of disagreement on the community on this one, but I have yet to hear a compelling argument for all but the most extreme cases, so we&amp;#8217;ll go with the side that makes life easier. Whenever you create a new object, &lt;strong&gt;make sure it is autoreleased&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;The convention for this is as follows: all methods that return objects return autoreleased objects, unless the method name starts with &lt;code&gt;init&lt;/code&gt; or &lt;code&gt;copy&lt;/code&gt;. For example:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;objc&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSNumber&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;numberWithInteger:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;       &lt;span class=&quot;c1&quot;&gt;// autoreleased&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSNumber&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;initWithInteger:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// not autoreleased&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;If you create an object with a method that starts with &lt;code&gt;init&lt;/code&gt; or &lt;code&gt;copy&lt;/code&gt;, make sure you explicitly tell it to autorelease:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;objc&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSNumber&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;initWithInteger:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;autorelease&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// autoreleased&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This will save you &lt;em&gt;a lot&lt;/em&gt; of headaches. Any objects that you don&amp;#8217;t want to keep will be released automatically. Any objects that you do want to keep should be assigned to a property, and since the property is &lt;code&gt;retain&lt;/code&gt; or &lt;code&gt;copy&lt;/code&gt; (as mentioned in rule 1), they will be retained and kept automatically.&lt;/p&gt;
+
+&lt;h1&gt;4. Never call &lt;code&gt;retain&lt;/code&gt; on anything&lt;/h1&gt;
+
+&lt;p&gt;The method &lt;code&gt;retain&lt;/code&gt; is not called once in all the lines of Objective-C code in my current code base. If you find yourself needing to explicitly retain an object, create a &lt;code&gt;retain&lt;/code&gt; or &lt;code&gt;copy&lt;/code&gt; property for it instead (as mentioned in rule 1) and assign it to that property.&lt;/p&gt;
+
+&lt;h1&gt;5. Never call &lt;code&gt;release&lt;/code&gt; on anything (except in &lt;code&gt;dealloc&lt;/code&gt;)&lt;/h1&gt;
+
+&lt;p&gt;If you&amp;#8217;re following rule 4, there should never be a time when you explicitly need to release an object, except in your class&amp;#8217;s &lt;code&gt;dealloc&lt;/code&gt; method (as mentioned in rule 1).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;If you follow all these rules, you should never have to think about memory management. If you deviate from any of them, you could end up in weird tough-to-debug situations, so try your hardest not to. If you find yourself in a situation where you think you absolutely need to deviate, write a comment on this post explaining your situation, and I&amp;#8217;ll see if I can help.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Moving to Octopress</title>
+    <link href="http://jakeboxer.github.com/blog/2011/09/09/moving-to-octopress/"/>
+    <updated>2011-09-09T15:47:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2011/09/09/moving-to-octopress</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;m now moving all my stuff from Media Temple and Tumblr to here. All posts before this one are reposts.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>My tips for an awesome WWDC</title>
+    <link href="http://jakeboxer.github.com/blog/2011/06/14/my-tips-for-an-awesome-wwdc/"/>
+    <updated>2011-06-14T20:57:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2011/06/14/my-tips-for-an-awesome-wwdc</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;ve seen a bunch of people who just got back from WWDC posting advice on how to have the best time possible. I figured I should do the same thing. Here are my tips.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Don&amp;#8217;t get in the keynote line early&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Even if you want to sit near the front, you don&amp;#8217;t need to get in line until around 8:30am. It&amp;#8217;s really easy to just run and push past all the submissive nerds and get an awesome seat.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Live-blog the keynote&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;People who aren&amp;#8217;t at the keynote would much rather read you repeating Steve Jobs&amp;#8217; announcements sentence-by-sentence on Twitter than watch a live feed with pictures. Also, other people in the audience who are following you will love reliving the moment when they look through their tweets later on.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Complain about the food&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You paid a lot of money for tickets, which entitles you to demand customized gourmet meals. Food should be the main concern at any tech conference, and if you aren&amp;#8217;t absolutely overjoyed by what you&amp;#8217;re putting in your mouth, you aren&amp;#8217;t getting your money&amp;#8217;s worth.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Don&amp;#8217;t silence your phone before a session begins&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I know they ask you to before every session (and you should roll your eyes and say &amp;#8220;do they have to say this every time?&amp;#8221; when they do), but they&amp;#8217;re really just forced to say that by law. In reality, all the speakers helped make these devices, and it&amp;#8217;ll make them proud to see you using them. In fact, feel free to quietly answer your phone right in the middle of a talk. No one will notice.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code during sessions&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;There are very few places in the world where you will have the opportunity to write code. A conference that you paid $1600 to attend is one of these places, and you should take advantage of that. Besides, you can just watch the session videos later.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Don&amp;#8217;t go to any parties afterwards&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You&amp;#8217;re probably better at programming than the other attendees. Meeting them is pointless, and won&amp;#8217;t be fun (and all the parties charge lots of money for alcohol, especially at Apple&amp;#8217;s beer bash). Also, your hotel room is another one of the aforementioned few places in the world where you can code, so you should stay there and do that instead.&lt;/p&gt;
+
+&lt;p&gt;These tips will guarantee you a quality WWDC 2012. Also, don&amp;#8217;t read any other WWDC tip posts, they&amp;#8217;re probably trying to troll you.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>The misguided priorities of Twitter</title>
+    <link href="http://jakeboxer.github.com/blog/2011/05/18/the-misguided-priorities-of-twitter/"/>
+    <updated>2011-05-18T20:54:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2011/05/18/the-misguided-priorities-of-twitter</id>
+    <content type="html">&lt;p&gt;Today, Twitter &lt;a href=&quot;http://blog.twitter.com/2011/05/mission-permission.html&quot;&gt;announced&lt;/a&gt; (with some awesome spin) that they would hamstring the direct message capabilities of all 3rd-party Twitter apps.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#8217;s been clear for awhile that one of Twitter&amp;#8217;s monetization strategies is to force everyone to use their mobile apps over those of third-parties. This will let them show promoted trending topics in the &lt;a href=&quot;http://blog.twitter.com/2011/03/so-bar-walks-into-app.html&quot;&gt;newly-neutered Dickbar&lt;/a&gt; to all mobile users. I understand that Twitter needs to find a way to make money, but this direction strikes me as extremely misguided.&lt;/p&gt;
+
+&lt;p&gt;I believe this lock-in strategy will never create enough revenue to cover a non-trivial portion of their operating costs (never mind the &lt;a href=&quot;http://www.businessinsider.com/twitter-turned-down-a-10-billion-offer-from-google&#8211;report-2011-4&quot;&gt;$10 billion they turned down from Google&lt;/a&gt;). In the meantime, it will alienate the developers who were once the lifeblood of the Twitter ecosystem. Without these developers, the 3rd party apps that Twitter &lt;em&gt;does&lt;/em&gt; want (cool aggregations, visualizations, etc.) will not be built, and new developer-fueled uses of the service will not be able to thrive.&lt;/p&gt;
+
+&lt;p&gt;It seems to me that the folks making business decisions at Twitter are severely underestimating the importance of certain parts of the community, and/or severely overestimating the potential revenue from their own mobile apps.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>How to reset/revert a single file with Git</title>
+    <link href="http://jakeboxer.github.com/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/"/>
+    <updated>2010-07-08T20:41:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;m making this post more for my own reference than to help anyone else, but feel free to comment if you have questions or anything.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;#8217;ve made a commit with git (let&amp;#8217;s call it &amp;#8220;commit A&amp;#8221;), and you want to make another commit (let&amp;#8217;s call it &amp;#8220;commit B&amp;#8221;) that, among other things, reverts the changes made to a single file (let&amp;#8217;s call it file1.rb) in commit A, use the following command:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git reset commit-a &#8211; path/to/file1.rb&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;That&amp;#8217;ll create two sets of changes: a copy of the changes you made in commit A, and the inverse of the changes you made in commit A. The inverse is staged, while the copy is unstaged. Nine times out of ten, you&amp;#8217;ll want to commit the staged changes (which, as they&amp;#8217;re the inverse of the changes in commit A, will result in a revert of file1) and discard the unstaged ones.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>My Doorbell Is Better Than Your &quot;Please Rob Me&quot;</title>
+    <link href="http://jakeboxer.github.com/blog/2010/02/18/my-doorbell-is-better-than-your-please-rob-me/"/>
+    <updated>2010-02-18T20:38:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2010/02/18/my-doorbell-is-better-than-your-please-rob-me</id>
+    <content type="html">&lt;blockquote&gt;&lt;p&gt;&amp;#8220;Hey man, I know you really like &lt;a href=&quot;http://foursquare.com/&quot;&gt;Foursquare&lt;/a&gt;, but you should check out this new site called &lt;a href=&quot;http://pleaserobme.com/&quot;&gt;Please Rob Me&lt;/a&gt;. Foursquare is actually really dangerous, cuz now it&amp;#8217;s easy for robbers to know when you&amp;#8217;re not at your house!&amp;#8221;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;I&amp;#8217;m a Foursquare user, and I&amp;#8217;ve heard variations of this from over a dozen of my friends in the past 24 hours. For the record, I think &amp;#8220;Please Rob Me&amp;#8221; is a really funny and creative idea, and I love that they made it. However, anyone who is legitimately giving privacy/security advice over this is being ridiculous.&lt;/p&gt;
+
+&lt;p&gt;First of all, &lt;em&gt;most people&lt;/em&gt; are out of the house from 9am to 5pm. Robbers know this, and Foursquare checkins don&amp;#8217;t change it.&lt;/p&gt;
+
+&lt;p&gt;Second, there&amp;#8217;s absolutely zero indication of whether or not anyone else is home, or how soon you&amp;#8217;ll be getting back. These are much more crucial pieces of knowledge than &amp;#8220;a single person was not in his house at this time&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;Last, and most important, a superior technology has existed for decades: the doorbell. Run around a neighborhood ringing doorbells of houses that look like they might be vacated, and break into the ones that no one answers.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&amp;#8220;Oh but people don&amp;#8217;t answer their doorbell every time, so a robber might break into an occupied house!&amp;#8221;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Right. Just like people don&amp;#8217;t have to actually be at a place to check into it on Foursquare, and like how checking in on Foursquare doesn&amp;#8217;t mean no one else is home. There are potential false positives with both methods (and if there weren&amp;#8217;t, people would be getting robbed a lot more). The point is, breaking in based on doorbell-ringing is much less dangerous than doing it based on Foursquare checkins, as it&amp;#8217;s reasonably likely that no one is home if no one answers the doorbell&lt;/p&gt;
+
+&lt;p&gt;In reality, privacy via anonymity has always been a pretty shaky concept. Yes, checking into Foursquare does give robbers one more tool to make their job easier, but in the face of much better tools (like the doorbell), it&amp;#8217;s negligible. If you chose to be a Foursquare user in the first place, Please Rob Me should have no impact on your decision.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>The importance of attr_accessible in Ruby on Rails</title>
+    <link href="http://jakeboxer.github.com/blog/2010/01/28/the-importance-of-attr-accessible-in-ruby-on-rails/"/>
+    <updated>2010-01-28T20:27:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2010/01/28/the-importance-of-attr-accessible-in-ruby-on-rails</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;m sure this has been written about ad nauseum, but I spent some time yesterday explaining it to someone who didn&amp;#8217;t understand, and now I feel like writing it up a bit more formally.&lt;/p&gt;
+
+&lt;h2&gt;What is attr_accessible?&lt;/h2&gt;
+
+&lt;p&gt;In Ruby on Rails, &lt;a href=&quot;http://api.rubyonrails.org/classes/ActiveRecord/Base.html#M002281&quot;&gt;attr_accessible&lt;/a&gt; allows you to specify which attributes of a model can be altered via mass-assignment (most notably by &lt;code&gt;update_attributes(attrs)&lt;/code&gt; and &lt;code&gt;new(attrs)&lt;/code&gt;). Any attribute names you pass as parameters will be alterable via mass-assignment, and all others won&amp;#8217;t be.&lt;/p&gt;
+
+&lt;h2&gt;How does mass-assignment work normally?&lt;/h2&gt;
+
+&lt;p&gt;By default, mass-assignment methods accept a hash of attribute values, each keyed by their associated attribute&amp;#8217;s name. If I ran the following code:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Harry Potter&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;hp@hogwarts.com&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;A new instance of the &lt;code&gt;User&lt;/code&gt; model would be created, and the &lt;code&gt;name&lt;/code&gt; and &lt;code&gt;email&lt;/code&gt; attributes would be set accordingly. It can also be used to alter related models. For example:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Albus Dumbledore&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;ss&quot;&gt;:is_teacher&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;ss&quot;&gt;:course_ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;In addition to creating a user with the appropriate attributes, this will update the specified courses to be owned by this user(assuming a user &lt;code&gt;has_many&lt;/code&gt; courses in our app).&lt;/p&gt;
+
+&lt;h2&gt;How can this be abused?&lt;/h2&gt;
+
+&lt;p&gt;Very easily. What if someone did this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Draco Malfoy&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:is_teacher&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This Draco Malfoy fellow may not actually be a teacher, but the system is none the wiser. Of course, the developer would never code this; in a real Rails app, the code is going to look like this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;The elements in &lt;code&gt;params[:user]&lt;/code&gt; are taken from the POST/GET/PUT data passed along when the action was run. They&amp;#8217;re thrown blindly into the mass-assignment, and any attributes whose names match the keys will be set.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;#8220;So what&amp;#8217;s the big deal? Just don&amp;#8217;t include an &amp;#8216;is_teacher&amp;#8217; field in the web form, and the param won&amp;#8217;t be there.&amp;#8221;&lt;/em&gt; This is true for innocent users, but the malicious ones (and Draco Malfoy is definitely a malicious one) have an easy way around this. A web form is just a way to make it easy for users to pass data to your app. There are other ways. For example, if I wanted to register for the app via the command line instead of a browser, I could do it like this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;curl -d &lt;span class=&quot;s2&quot;&gt;&amp;quot;user[name]=Harry Potter&amp;amp;user[email]=hp@hp.com&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    http://myapp.com/users/
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This sends a request to &lt;code&gt;http://myapp.com/users/&lt;/code&gt; and passes data in the exact format it would&amp;#8217;ve appeared if I&amp;#8217;d filled out a web form that asked for a name and email address. However, I could also do this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;curl -d &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &lt;span class=&quot;s2&quot;&gt;&amp;quot;user[name]=Draco Malfoy&amp;amp;user[email]=m@hp.com&amp;amp;user[is_teacher]=1&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    http://myapp.com/users/
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Since &lt;code&gt;is_teacher&lt;/code&gt; is an attribute name in my User model, and mass-assignment methods blindly accept whatever attributes they see, Draco Malfoy has just set himself a teacher.&lt;/p&gt;
+
+&lt;p&gt;Even worse, I could use this to grab courses that may not be mine.&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;curl -d &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &lt;span class=&quot;s2&quot;&gt;&amp;quot;user[name]=Draco Malfoy&amp;amp;user[course_ids]=1&amp;amp;user[course_ids]=2&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    http://myapp.com/users/
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Draco Malfoy has now taken courses 1 and 2 away from whoever they originally belonged to (Dumbledore, if my memory serves me) and given them to himself.&lt;/p&gt;
+
+&lt;h2&gt;How can we prevent this?&lt;/h2&gt;
+
+&lt;p&gt;There are a few obvious but clumsy ways. We could skip mass assignment, setting each individual attribute in our controller, but this will introduce a lot of duplicate and unnecessary code. We could explicitly pull unwanted parameters out:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:is_teacher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:course_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This also introduces a lot of duplicate code. If we ever add new columns that we want to restrict, or decide we want to unrestrict a column, we&amp;#8217;re going to have to go through the &lt;code&gt;create&lt;/code&gt; and &lt;code&gt;update&lt;/code&gt; actions, and any others that perform mass assignment.&lt;/p&gt;
+
+&lt;p&gt;We could factor these out into some sort of &lt;code&gt;sanitize_params&lt;/code&gt; method on each model. This is a better solution, but you still have to call it in every action that alters the data. It&amp;#8217;s definitely not as good as the built-in one: &lt;code&gt;attr_accessible&lt;/code&gt;. We can add this to the top of the &lt;code&gt;User&lt;/code&gt; model:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;attr_accessible&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:email&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This white-lists &lt;code&gt;name&lt;/code&gt; and &lt;code&gt;email&lt;/code&gt;; these two attributes will be accepted from a mass-assignment method, while &lt;em&gt;all others&lt;/em&gt; will be ignored. This is by far the safest way to do it; only attributes you&amp;#8217;ve explicitly allowed (which hopefully means you&amp;#8217;ve thought carefully about them) can be set by mass-assignment. This way, if some intern comes along and adds a bunch of dangerous columns or relations (&lt;code&gt;payment_accepted&lt;/code&gt; or &lt;code&gt;horcruxes&lt;/code&gt;, for example), no one has to think about updating the &lt;code&gt;sanitize&lt;/code&gt; methods.&lt;/p&gt;
+
+&lt;h2&gt;What does this &lt;em&gt;not&lt;/em&gt; do?&lt;/h2&gt;
+
+&lt;p&gt;I saw one person say &amp;#8220;Why would I put anything in &lt;code&gt;attr_accessible&lt;/code&gt;? Why would I want any of my attributes to be hackable?&amp;#8221;&lt;/p&gt;
+
+&lt;p&gt;Make no mistake: &lt;code&gt;attr_accessible&lt;/code&gt; is no substitution for proper access control. If all users have write access to all other users, &lt;code&gt;attr_accessible&lt;/code&gt; will let one user change another&amp;#8217;s &lt;code&gt;name&lt;/code&gt; attribute if it&amp;#8217;s specified. Regular authentication and access control must be used to prevent users from writing to model instances that they shouldn&amp;#8217;t be able to write to. Once this is done correctly, &lt;code&gt;attr_accessible&lt;/code&gt; can be used to prevent a malicious user from altering data of her own that she shouldn&amp;#8217;t be able to alter.&lt;/p&gt;
+
+&lt;p&gt;To be more clear, it could be considered &amp;#8220;hacking&amp;#8221; if a user were able to change everyone&amp;#8217;s &lt;code&gt;name&lt;/code&gt; to &amp;#8220;Voldemort&amp;#8221;. &lt;code&gt;attr_accessible&lt;/code&gt; can&amp;#8217;t prevent this; you need to do proper authentication with something like &lt;a href=&quot;http://github.com/binarylogic/authlogic&quot;&gt;Authlogic&lt;/a&gt;. Once you&amp;#8217;ve set your controllers up to prevent a user from even attempting to change another user&amp;#8217;s data, you&amp;#8217;ve prevented this &amp;#8220;hack&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;If the user tries to change &lt;em&gt;his own&lt;/em&gt; name to &amp;#8220;Voldemort&amp;#8221;, that&amp;#8217;s totally fine. We don&amp;#8217;t care if he does it via the web app, curl, or anything else; users are allowed to change their own name. Including &lt;code&gt;:name&lt;/code&gt; in &lt;code&gt;attr_accessible&lt;/code&gt; isn&amp;#8217;t making it &amp;#8220;hackable&amp;#8221;, because it&amp;#8217;s an attribute that users &lt;code&gt;should&lt;/code&gt; be able to change.&lt;/p&gt;
+
+&lt;p&gt;If the user tries to change his &lt;code&gt;is_teacher&lt;/code&gt; attribute from &lt;code&gt;false&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt;, that&amp;#8217;s also considered &amp;#8220;hacking&amp;#8221;. We don&amp;#8217;t want to let users do this, so we exclude &lt;code&gt;:is_teacher&lt;/code&gt; from &lt;code&gt;attr_accessible&lt;/code&gt; to prevent it.&lt;/p&gt;
+
+&lt;h2&gt;Are attributes excluded from attr_accessible immutable?&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;No. They can still be altered, just not via mass-assignment.&lt;/strong&gt; If I exclude &lt;code&gt;is_teacher&lt;/code&gt; from &lt;code&gt;attr_accessible&lt;/code&gt;, and I go:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;hagrid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:conditions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Rubeus Hagrid&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;hagrid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_teacher&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;hagrid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;That will work just fine. The difference is, it forces you to set the attribute explicitly, so there&amp;#8217;s no potential of accidentally setting an attribute unexpectedly passed to mass-assignment. This way, I can allow my non-dangerous attributes to be set via mass-assignment with &lt;code&gt;attr_accessible&lt;/code&gt;, then explicitly provide or deny control over dangerous attributes in other actions.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Prototype analog to jQuery&#8217;s $(document).ready</title>
+    <link href="http://jakeboxer.github.com/blog/2010/01/23/prototype-analog-to-jquerys-document-dot-ready/"/>
+    <updated>2010-01-23T20:25:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2010/01/23/prototype-analog-to-jquerys-document-dot-ready</id>
+    <content type="html">&lt;p&gt;I have a lot of experience with jQuery, but less with Prototype. Recently, I needed to add some event handlers to some elements in a Ruby on Rails app I&amp;#8217;m building. I searched for how to do the equivalent of jQuery&amp;#8217;s &lt;code&gt;$(document).ready()&lt;/code&gt; function in Prototype so that I could add the handlers after the document loaded, but most of the guides I found were out of date (I&amp;#8217;m running Prototype 1.6.0.3, and I don&amp;#8217;t know which version these guides were for, but they all made my Javascript console angry).&lt;/p&gt;
+
+&lt;p&gt;Eventually, I was able to piece it together after digging through &lt;a href=&quot;http://api.prototypejs.org/dom/document.html#observe-class_method&quot;&gt;the&lt;/a&gt; &lt;a href=&quot;http://api.prototypejs.org/dom/event.html#observe-class_method&quot;&gt;depths&lt;/a&gt; of the Prototype API documentation. It&amp;#8217;s actually very simple:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;javascript&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;observe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;dom:loaded&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;c1&quot;&gt;// do yo thang&#8230;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Wrap whatever you&amp;#8217;re doing with that, and it won&amp;#8217;t be run until the document is loaded.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Installing Ruby on Rails 2.3+ plugins From Github</title>
+    <link href="http://jakeboxer.github.com/blog/2010/01/13/installing-ruby-on-rails-2-dot-3-plus-plugins-from-github/"/>
+    <updated>2010-01-13T20:21:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2010/01/13/installing-ruby-on-rails-2-dot-3-plus-plugins-from-github</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;ve been banging my head against this wall for quite awhile now, and I just finally figured out the answer. Like I&amp;#8217;ve done in other posts, I&amp;#8217;ll just post what worked for me, and hopefully it&amp;#8217;ll help other people.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;m running Ruby 1.9 and Ruby on Rails 2.3.3 on Snow Leopard. I&amp;#8217;ve been trying to install plugins (specifically, &lt;a href=&quot;http://github.com/binarylogic/authlogic&quot;&gt;Authlogic&lt;/a&gt; and &lt;a href=&quot;http://github.com/jim/carmen&quot;&gt;Carmen&lt;/a&gt;) for a couple days now using the following two commands (as taken from the main github pages):&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;script/plugin install git://github.com/binarylogic/authlogic.git
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;script/plugin install git://github.com/jim/carmen.git
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;In return, I received the following errors:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;Plugin not found: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;git://github.com/binarylogic/authlogic.git&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;Plugin not found: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;git://github.com/jim/carmen.git&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;After a lot of poking around, it turns out you need to make two changes in order for this to work on Rails 2.3 or higher: change the &lt;code&gt;git://&lt;/code&gt; at the beginning of each URL to &lt;code&gt;http://&lt;/code&gt;, and add a trailing slash to the end of each URL. So instead, run these:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;bash&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;script/plugin install http://github.com/binarylogic/authlogic.git/
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;script/plugin install http://github.com/jim/carmen.git/
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;They both worked perfectly for me, so hopefully they&amp;#8217;ll work for you. If not, leave a comment and I&amp;#8217;ll try to help.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Installing Erlang on Snow Leopard</title>
+    <link href="http://jakeboxer.github.com/blog/2010/01/01/installing-erlang-on-snow-leopard/"/>
+    <updated>2010-01-01T20:14:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2010/01/01/installing-erlang-on-snow-leopard</id>
+    <content type="html">&lt;p&gt;Here&amp;#8217;s another in my series of &amp;#8220;Installing X on Snow Leopard&amp;#8221;. These aren&amp;#8217;t official, well-tested guides; they&amp;#8217;re just documentations of my attempts to compile and install various things on my personal computer. My last one (&lt;a href=&quot;http://jboxer.com/2009/09/installing-mysql-on-snow-leopard/&quot;&gt;Installing MySQL on Snow Leopard&lt;/a&gt;) is my most popular post to date (aside from a couple that have been on Reddit). Erlang is less popular than MySQL, but hopefully this will still help a few people.&lt;/p&gt;
+
+&lt;h2&gt;Downloading and unpacking&lt;/h2&gt;
+
+&lt;p&gt;Go to http://erlang.org/download.html and download the Source for the newest version (when I was writing this, that was &lt;strong&gt;&lt;a href=&quot;http://erlang.org/download/otp_src_R13B03.tar.gz&quot;&gt;R13B03&lt;/a&gt;&lt;/strong&gt;. After downloading, extract it to somewhere that&amp;#8217;s convenient to get to with the Terminal.&lt;/p&gt;
+
+&lt;h2&gt;Configure&lt;/h2&gt;
+
+&lt;p&gt;Open the Terminal and &lt;code&gt;cd&lt;/code&gt; into the directory you extracted Erlang to (mine was &lt;code&gt;/Users/jake/src/otp_src_R13B03&lt;/code&gt;. Then run the following command:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;./configure \
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &#8211;prefix=/usr/local/ \
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &#8211;enable-smp-support \
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &#8211;enable-threads \
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    &#8211;enable-darwin-64bit&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You will probably get &lt;strong&gt;three errors&lt;/strong&gt;. Read about them in the Configuration Errors section coming up.&lt;/p&gt;
+
+&lt;p&gt;The first three configure options are the defaults according to the README. However, I&amp;#8217;ve had experiences where supposed defaults aren&amp;#8217;t really the defaults when compiled on OS X, so I don&amp;#8217;t like to take chances. &lt;code&gt;&#8211;enable-darwin-64bit&lt;/code&gt; enables experimental support for the 64bit x86 Darwin binaries. This may not be necessary, but in general, 64-bit stuff has fewer problems on Snow Leopard, so I figured this was a good idea.&lt;/p&gt;
+
+&lt;h2&gt;Configuration Errors&lt;/h2&gt;
+
+&lt;p&gt;I got the following configuration errors:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;jinterface    : No Java compiler found
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;wx            : Can not combine 64bits erlang with wxWidgets on
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;                MacOSX, wx will not be useable
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;documentation : fop is missing. The documentation can not be built.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;These aren&amp;#8217;t a problem. If you get any errors besides these, you&amp;#8217;re in trouble. Leave a comment, and I&amp;#8217;ll see if I can help.&lt;/p&gt;
+
+&lt;h2&gt;Making and installing&lt;/h2&gt;
+
+&lt;p&gt;These two commands shouldn&amp;#8217;t give you any trouble:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;And then, after &lt;code&gt;make&lt;/code&gt; is done:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo make install&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;If you get any errors at either of these stages, leave a comment and I&amp;#8217;ll try to help.&lt;/p&gt;
+
+&lt;h2&gt;Making sure it works&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; This canonical test is gratefully borrowed from &lt;a href=&quot;http://erlang.org/quick_start.html&quot;&gt;erlang.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Put the following into a text file:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;erlang&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;ni&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;ni&quot;&gt;export&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fac&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nf&quot;&gt;fac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nf&quot;&gt;fac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Save it as &lt;code&gt;test.erl&lt;/code&gt; in a directory that&amp;#8217;s easy to get to with the Terminal. Then, from the Terminal, &lt;code&gt;cd&lt;/code&gt; into that directory and type &lt;code&gt;erl&lt;/code&gt; (which, if everything worked right, should start the Erlang command-line interpreter). From the interpreter, run the following commands:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;erlang&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;mi&quot;&gt;2432902008176640000&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;mi&quot;&gt;815915283247897734345611269596115894272000000000&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Lines starting with &lt;code&gt;N&amp;gt;&lt;/code&gt; (where N is a number) are lines you should type (but just type the stuff coming after &lt;code&gt;N&amp;gt;&lt;/code&gt;). The other lines represent output.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;c(test).&lt;/code&gt; compiles test.erl (assuming it&amp;#8217;s in the directory you &lt;code&gt;cd&lt;/code&gt;&amp;#8216;ed into). &lt;code&gt;test:fac(20).&lt;/code&gt; and &lt;code&gt;test:fac(40).&lt;/code&gt; runs your factorial function.&lt;/p&gt;
+
+&lt;p&gt;So, that&amp;#8217;s what worked for me. If anyone has any problems along the way, leave a comment and I&amp;#8217;ll try to help.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Snide remarks against women in technology</title>
+    <link href="http://jakeboxer.github.com/blog/2009/12/16/snide-remarks-against-women-in-technology/"/>
+    <updated>2009-12-16T20:11:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2009/12/16/snide-remarks-against-women-in-technology</id>
+    <content type="html">&lt;blockquote&gt;&lt;p&gt;It&amp;#8217;s this culture of attacking women that has especially got to stop. Whenever I post a video of a female technologist there invariably are snide remarks about body parts and other things that simply wouldn&amp;#8217;t happen if the interviewee were a man.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Blogger &lt;a href=&quot;http://en.wikipedia.org/wiki/Robert_Scoble&quot;&gt;Robert Scoble&lt;/a&gt;, responding to threats against tech author &lt;a href=&quot;http://en.wikipedia.org/wiki/Kathy_Sierra&quot;&gt;Kathy Sierra&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>The Knuth-Morris-Pratt Algorithm in my own words</title>
+    <link href="http://jakeboxer.github.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words/"/>
+    <updated>2009-12-13T20:00:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words</id>
+    <content type="html">&lt;p&gt;For the past few days, I&amp;#8217;ve been reading various explanations of &lt;a href=&quot;http://en.wikipedia.org/wiki/Knuth-Morris-Pratt_algorithm&quot;&gt;the Knuth-Morris-Pratt string searching algorithms&lt;/a&gt;. For some reason, none of the explanations were doing it for me. I kept banging my head against a brick wall once I started reading &amp;#8220;the prefix of the suffix of the prefix of the&amp;#8230;&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;Finally, after reading the same paragraph of &lt;a href=&quot;http://www.amazon.com/Introduction-Algorithms-Third-Thomas-Cormen/dp/0262033844/&quot;&gt;CLRS&lt;/a&gt; over and over for about 30 minutes, I decided to sit down, do a bunch of examples, and diagram them out. I now understand the algorithm, and can explain it. For those who think like me, here it is in my own words. As a side note, I&amp;#8217;m not going to explain why it&amp;#8217;s more efficient than na&amp;#8221;ive string matching; that&amp;#8217;s explained perfectly well in a &lt;a href=&quot;http://en.wikipedia.org/wiki/Knuth-Morris-Pratt_algorithm&quot;&gt;multitude&lt;/a&gt; &lt;a href=&quot;http://www.ics.uci.edu/~eppstein/161/960227.html&quot;&gt;of&lt;/a&gt; &lt;a href=&quot;http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/StringMatch/kuthMP.htm&quot;&gt;places&lt;/a&gt;. I&amp;#8217;m going to explain exactly how it works, as my brain understands it.&lt;/p&gt;
+
+&lt;h2&gt;The Partial Match Table&lt;/h2&gt;
+
+&lt;p&gt;The key to KMP, of course, is the partial match table. The main obstacle between me and understanding KMP was the fact that I didn&amp;#8217;t quite fully grasp what the values in the partial match table really meant. I will now try to explain them in the simplest words possible.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;#8217;s the partial match table for the pattern &amp;#8220;abababca&amp;#8221;:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;char:  | a | b | a | b | a | b | c | a |
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;index: | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;value: | 0 | 0 | 1 | 2 | 3 | 4 | 0 | 1 |&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;If I have an eight-character pattern (let&amp;#8217;s say &amp;#8220;abababca&amp;#8221; for the duration of this example), my partial match table will have eight cells. If I&amp;#8217;m looking at the eighth and last cell in the table, I&amp;#8217;m interested in the entire pattern (&amp;#8220;abababca&amp;#8221;). If I&amp;#8217;m looking at the seventh cell in the table, I&amp;#8217;m only interested in the first seven characters in the pattern (&amp;#8220;abababc&amp;#8221;); the eighth one (&amp;#8220;a&amp;#8221;) is irrelevant, and can go fall off a building or something.  If I&amp;#8217;m looking at the sixth cell of the in the table&amp;#8230; you get the idea. Notice that I haven&amp;#8217;t talked about what each cell &lt;em&gt;means&lt;/em&gt; yet, but just what it&amp;#8217;s referring to.&lt;/p&gt;
+
+&lt;p&gt;Now, in order to talk about the meaning, we need to know about &lt;strong&gt;proper prefixes&lt;/strong&gt; and &lt;strong&gt;proper suffixes&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Proper prefix&lt;/strong&gt;: All the characters in a string, with one or more cut off the end. &amp;#8220;S&amp;#8221;, &amp;#8220;Sn&amp;#8221;, &amp;#8220;Sna&amp;#8221;, and &amp;#8220;Snap&amp;#8221; are all the proper prefixes of &amp;#8220;Snape&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Proper suffix&lt;/strong&gt;: All the characters in a string, with one or more cut off the beginning. &amp;#8220;agrid&amp;#8221;, &amp;#8220;grid&amp;#8221;, &amp;#8220;rid&amp;#8221;, &amp;#8220;id&amp;#8221;, and &amp;#8220;d&amp;#8221; are all proper suffixes of &amp;#8220;Hagrid&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;With this in mind, I can now give the one-sentence meaning of the values in the partial match table:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The length of the longest proper prefix in the (sub)pattern that matches a proper suffix in the same (sub)pattern.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Let&amp;#8217;s examine what I mean by that. Say we&amp;#8217;re looking in the third cell. As you&amp;#8217;ll remember from above, this means we&amp;#8217;re only interested in the first three characters (&amp;#8220;aba&amp;#8221;). In &amp;#8220;aba&amp;#8221;, there are two proper prefixes (&amp;#8220;a&amp;#8221; and &amp;#8220;ab&amp;#8221;) and two proper suffixes (&amp;#8220;a&amp;#8221; and &amp;#8220;ba&amp;#8221;). The proper prefix &amp;#8220;ab&amp;#8221; does not match either of the two proper suffixes. However, the proper prefix &amp;#8220;a&amp;#8221; matches the proper suffix &amp;#8220;a&amp;#8221;. Thus, &lt;strong&gt;the length of the longest proper prefix that matches a proper suffix&lt;/strong&gt;, in this case, is 1.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;#8217;s try it for cell four. Here, we&amp;#8217;re interested in the first four characters (&amp;#8220;abab&amp;#8221;). We have three proper prefixes (&amp;#8220;a&amp;#8221;, &amp;#8220;ab&amp;#8221;, and &amp;#8220;aba&amp;#8221;) and three proper suffixes (&amp;#8220;b&amp;#8221;, &amp;#8220;ab&amp;#8221;, and &amp;#8220;bab&amp;#8221;). This time, &amp;#8220;ab&amp;#8221; is in both, and is two characters long, so cell four gets value 2.&lt;/p&gt;
+
+&lt;p&gt;Just because it&amp;#8217;s an interesting example, let&amp;#8217;s also try it for cell five, which concerns &amp;#8220;ababa&amp;#8221;. We have four proper prefixes (&amp;#8220;a&amp;#8221;, &amp;#8220;ab&amp;#8221;, &amp;#8220;aba&amp;#8221;, and &amp;#8220;abab&amp;#8221;) and four proper suffixes (&amp;#8220;a&amp;#8221;, &amp;#8220;ba&amp;#8221;, &amp;#8220;aba&amp;#8221;, and &amp;#8220;baba&amp;#8221;). Now, we have two matches: &amp;#8220;a&amp;#8221; and &amp;#8220;aba&amp;#8221; are both proper prefixes and proper suffixes. Since &amp;#8220;aba&amp;#8221; is longer than &amp;#8220;a&amp;#8221;, it wins, and cell five gets value 3.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;#8217;s skip ahead to cell seven (the second-to-last cell), which is concerned with the pattern &amp;#8220;abababc&amp;#8221;. Even without enumerating all the proper prefixes and suffixes, it should be obvious that there aren&amp;#8217;t going to be any matches; all the suffixes will end with the letter &amp;#8220;c&amp;#8221;, and none of the prefixes will. Since there are no matches, cell seven gets 0.&lt;/p&gt;
+
+&lt;p&gt;Finally, let&amp;#8217;s look at cell eight, which is concerned with the entire pattern (&amp;#8220;abababca&amp;#8221;). Since they both start and end with &amp;#8220;a&amp;#8221;, we know the value will be at least 1. However, that&amp;#8217;s where it ends; at lengths two and up, all the suffixes contain a c, while only the last prefix (&amp;#8220;abababc&amp;#8221;) does. This seven-character prefix does not match the seven-character suffix (&amp;#8220;bababca&amp;#8221;), so cell eight gets 1.&lt;/p&gt;
+
+&lt;h2&gt;How to use the Partial Match Table&lt;/h2&gt;
+
+&lt;p&gt;We can use the values in the partial match table to skip ahead (rather than redoing unnecessary old comparisons) when we find partial matches. The formula works like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;If a partial match of length &lt;strong&gt;partial_match_length&lt;/strong&gt; is found and &lt;code&gt;table[partial_match_length] &amp;gt; 1&lt;/code&gt;, we may skip ahead &lt;code&gt;partial_match_length - table[partial_match_length - 1]&lt;/code&gt; characters.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Let&amp;#8217;s say we&amp;#8217;re matching the pattern &amp;#8220;abababca&amp;#8221; against the text &amp;#8220;bacbababaabcbab&amp;#8221;. Here&amp;#8217;s our partial match table again for easy reference:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;char:  | a | b | a | b | a | b | c | a |
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;index: | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;value: | 0 | 0 | 1 | 2 | 3 | 4 | 0 | 1 |&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;The first time we get a partial match is here:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;bacbababaabcbab
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt; |
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt; abababca&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This is a partial_match_length of 1. The value at &lt;code&gt;table[partial_match_length - 1]&lt;/code&gt; (or &lt;code&gt;table[0]&lt;/code&gt;) is 0, so we don&amp;#8217;t get to skip ahead any. The next partial match we get is here:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;bacbababaabcbab
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    |||||
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    abababca&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This is a partial_match_length of 5. The value at &lt;code&gt;table[partial_match_length - 1]&lt;/code&gt; (or &lt;code&gt;table[4]&lt;/code&gt;) is 3. That means we get to skip ahead &lt;code&gt;partial_match_length - table[partial_match_length - 1]&lt;/code&gt; (or &lt;code&gt;5 - table[4]&lt;/code&gt; or &lt;code&gt;5 - 3&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt;) characters:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;// x denotes a skip
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;bacbababaabcbab
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;    xx|||
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;      abababca&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This is a partial_match_length of 3. The value at &lt;code&gt;table[partial_match_length - 1]&lt;/code&gt; (or &lt;code&gt;table[2]&lt;/code&gt;) is 1. That means we get to skip ahead &lt;code&gt;partial_match_length - table[partial_match_length - 1]&lt;/code&gt; (or &lt;code&gt;3 - table[2]&lt;/code&gt; or &lt;code&gt;3 - 1&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt;) characters:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8221;&gt;&lt;span class=&#8217;line&#8217;&gt;// x denotes a skip
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;bacbababaabcbab
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;      xx|
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;        abababca&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;At this point, our pattern is longer than the remaining characters in the text, so we know there&amp;#8217;s no match.&lt;/p&gt;
+
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;So there you have it. Like I promised before, it&amp;#8217;s no exhaustive explanation or formal proof of KMP; it&amp;#8217;s a walk through my brain, with the parts I found confusing spelled out in extreme detail. If you have any questions or notice something I messed up, please leave a comment; maybe we&amp;#8217;ll all learn something.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>A method with no unit tests is a broken method</title>
+    <link href="http://jakeboxer.github.com/blog/2009/11/17/a-method-with-no-unit-tests-is-a-broken-method/"/>
+    <updated>2009-11-17T20:00:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2009/11/17/a-method-with-no-unit-tests-is-a-broken-method</id>
+    <content type="html">&lt;p&gt;If you write software, you need to write unit tests. If you&amp;#8217;ve written a method/function, and you haven&amp;#8217;t written a unit test for it, it&amp;#8217;s safe to assume that it&amp;#8217;s broken (even if it compiles and your other tests pass).&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;m not necessarily advocating full-fledged test-driven development. I&amp;#8217;m just saying, if you release code into &amp;#8220;the wild,&amp;#8221; and there are methods you haven&amp;#8217;t unit tested, your customers will almost certainly run into multiple bugs in each one of them.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#8217;s an atomic point. Separate from that, I&amp;#8217;d like to mention that this isn&amp;#8217;t always a bad thing. For a startup that wants to iterate as quickly as possible (and is writing non-life-critical software), writing the code with no unit tests, releasing it, and reproducing each customer-discovered bug with a unit test before fixing it is a totally reasonable model. These startups just shouldn&amp;#8217;t operate under the illusion that their software &amp;#8220;works&amp;#8221;. In the hours after they make one of these releases, they should feel blessed if a single customer is able to register or log in.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Convert an int array to a comma-separated string with C</title>
+    <link href="http://jakeboxer.github.com/blog/2009/11/16/convert-an-int-array-to-a-comma-separated-string-with-c/"/>
+    <updated>2009-11-16T19:55:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2009/11/16/convert-an-int-array-to-a-comma-separated-string-with-c</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;m much less experienced in C than I am in higher-level languages. At Cisco, we use C, and I sometimes run into something that would be easy to do in Java or Python, but very difficult to do in C. Now is one of those times.&lt;/p&gt;
+
+&lt;p&gt;I have a dynamically-allocated array of unsigned integers which I need to convert to a comma-separated string for logging. While the integers are not likely to be very large, they could conceptually be anywhere from 0 to 4,294,967,295. In Python, that&amp;#8217;s one short line.&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;python&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;my_str&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;How elegantly can people do this in C? I came up with a way, but it&amp;#8217;s gross. If anyone knows a nice way to do it, please enlighten me.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Little Joys of Rails (Part 1) - Renaming Associations</title>
+    <link href="http://jakeboxer.github.com/blog/2009/11/04/little-joys-of-rails-part-1-renaming-associations/"/>
+    <updated>2009-11-04T19:46:00-08:00</updated>
+    <id>http://jakeboxer.github.com/blog/2009/11/04/little-joys-of-rails-part-1-renaming-associations</id>
+    <content type="html">&lt;p&gt;I&amp;#8217;ve spent the last month or so teaching myself the basics of &lt;a href=&quot;http://www.rubyonrails.org/&quot;&gt;Ruby on Rails&lt;/a&gt;. By far my favorite thing about it is that, at every turn, I find a little feature or helper that works really well and does exactly what I want without feeling messy or &amp;#8220;magical&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, I have no one to share these little joys with, as pretty much none of my programmer friends know Ruby or Ruby on Rails. So, I figured I&amp;#8217;d start sharing them on here. Hopefully, Rails newbies (like myself) will learn something, and Rails veterans will be able to chuckle knowingly as they fondly look back on the glory days of learning Rails.&lt;/p&gt;
+
+&lt;h2&gt;Renaming Associations&lt;/h2&gt;
+
+&lt;p&gt;If you have one model that &lt;code&gt;belongs_to&lt;/code&gt; another, the association (in both directions) is named after the models. For example, if I have Users and Courses, and I want a course to &lt;code&gt;belong_to&lt;/code&gt; its teacher (who is a User), I would start with the following:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:courses&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;This is nice and simple, but if I want to access a course&amp;#8217;s teacher, I have to do it like this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Print out the course&amp;#39;s teacher&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;That&amp;#8217;s a little confusing. What if my course also &lt;code&gt;has_many&lt;/code&gt; students (also Users)?&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Print out the course&amp;#39;s first student&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;So, &lt;code&gt;my_course.user&lt;/code&gt; is the teacher, and &lt;code&gt;my_course.users&lt;/code&gt; are the students. There&amp;#8217;s nothing to indicate that, I just have to know it. Wouldn&amp;#8217;t it be nicer if the associations could be named for what they represent?&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:teacher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:class_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;User&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;To make this work properly, the foreign key needs to be &lt;code&gt;teacher_id&lt;/code&gt; instead of &lt;code&gt;user_id&lt;/code&gt; (that can be overridden too, but I won&amp;#8217;t go into that right now). Then, you get to do this:&lt;/p&gt;
+
+&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
+&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Print out the course&amp;#39;s teacher&lt;/span&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
+
+
+&lt;p&gt;Much better!&lt;/p&gt;
+
+&lt;p&gt;Now, I recognize that this is far from a revolutionary feature. I&amp;#8217;m pretty sure it&amp;#8217;s possible in Django and most other MVC frameworks. I was just very happy to bump into it.&lt;/p&gt;
+</content>
+  </entry>
+  
+</feed>
