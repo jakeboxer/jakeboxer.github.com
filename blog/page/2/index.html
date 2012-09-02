@@ -9,7 +9,7 @@
   <meta name="author" content="Jake Boxer">
 
   
-  <meta name="description" content="&#8220;Hey man, I know you really like Foursquare, but you should check out this new site called Please Rob Me. Foursquare is actually really dange...">
+  <meta name="description" content="I&#8217;m making this post more for my own reference than to help anyone else, but feel free to comment if you have questions or anything.If you&#8...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -60,6 +60,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/">How to reset/revert a single file with Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+  
+
+
+
+<time datetime="2010-07-08T20:41:00-07:00" pubdate  data-updated="true" >Jul 8<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/07/08/how-to-reset-slash-revert-a-single-file-with-git/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m making this post more for my own reference than to help anyone else, but feel free to comment if you have questions or anything.</p>
+
+<p>If you&#8217;ve made a commit with git (let&#8217;s call it &#8220;commit A&#8221;), and you want to make another commit (let&#8217;s call it &#8220;commit B&#8221;) that, among other things, reverts the changes made to a single file (let&#8217;s call it file1.rb) in commit A, use the following command:</p>
+
+<p><code>git reset commit-a -- path/to/file1.rb</code></p>
+
+<p>That&#8217;ll create two sets of changes: a copy of the changes you made in commit A, and the inverse of the changes you made in commit A. The inverse is staged, while the copy is unstaged. Nine times out of ten, you&#8217;ll want to commit the staged changes (which, as they&#8217;re the inverse of the changes in commit A, will result in a revert of file1) and discard the unstaged ones.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -788,107 +830,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/11/04/little-joys-of-rails-part-1-renaming-associations/">Little Joys of Rails (Part 1) - Renaming Associations</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-  
-
-
-
-<time datetime="2009-11-04T19:46:00-08:00" pubdate  data-updated="true" >Nov 4<span>th</span>, 2009</time>
-        
-         | <a href="/blog/2009/11/04/little-joys-of-rails-part-1-renaming-associations/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve spent the last month or so teaching myself the basics of <a href="http://www.rubyonrails.org/">Ruby on Rails</a>. By far my favorite thing about it is that, at every turn, I find a little feature or helper that works really well and does exactly what I want without feeling messy or &#8220;magical&#8221;.</p>
-
-<p>Unfortunately, I have no one to share these little joys with, as pretty much none of my programmer friends know Ruby or Ruby on Rails. So, I figured I&#8217;d start sharing them on here. Hopefully, Rails newbies (like myself) will learn something, and Rails veterans will be able to chuckle knowingly as they fondly look back on the glory days of learning Rails.</p>
-
-<h2>Renaming Associations</h2>
-
-<p>If you have one model that <code>belongs_to</code> another, the association (in both directions) is named after the models. For example, if I have Users and Courses, and I want a course to <code>belong_to</code> its teacher (who is a User), I would start with the following:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:courses</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Course</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is nice and simple, but if I want to access a course&#8217;s teacher, I have to do it like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">my_course</span> <span class="o">=</span> <span class="no">Course</span><span class="o">.</span><span class="n">first</span>
-</span><span class='line'><span class="nb">puts</span> <span class="n">my_course</span><span class="o">.</span><span class="n">user</span> <span class="c1"># Print out the course&#39;s teacher</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&#8217;s a little confusing. What if my course also <code>has_many</code> students (also Users)?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">my_course</span> <span class="o">=</span> <span class="no">Course</span><span class="o">.</span><span class="n">first</span>
-</span><span class='line'><span class="nb">puts</span> <span class="n">my_course</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">first</span> <span class="c1"># Print out the course&#39;s first student</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So, <code>my_course.user</code> is the teacher, and <code>my_course.users</code> are the students. There&#8217;s nothing to indicate that, I just have to know it. Wouldn&#8217;t it be nicer if the associations could be named for what they represent?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Course</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:teacher</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;User&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To make this work properly, the foreign key needs to be <code>teacher_id</code> instead of <code>user_id</code> (that can be overridden too, but I won&#8217;t go into that right now). Then, you get to do this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">my_course</span> <span class="o">=</span> <span class="no">Course</span><span class="o">.</span><span class="n">first</span>
-</span><span class='line'><span class="nb">puts</span> <span class="n">my_course</span><span class="o">.</span><span class="n">teacher</span> <span class="c1"># Print out the course&#39;s teacher</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Much better!</p>
-
-<p>Now, I recognize that this is far from a revolutionary feature. I&#8217;m pretty sure it&#8217;s possible in Django and most other MVC frameworks. I was just very happy to bump into it.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <nav class="pagination">
     <div>
       
@@ -908,6 +849,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/02/why-eating-sushi-is-a-stressful-experience-for-me/">Why eating sushi is a stressful experience for me</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/07/09/converting-to-the-new-rspec-2-dot-11-expectation-syntax/">Converting to the new RSpec 2.11 expectation syntax</a>
       </li>
     
@@ -921,10 +866,6 @@
     
       <li class="post">
         <a href="/blog/2011/11/06/bashs-ps1-syntax-the-inspiration-for-brainfuck/">Bash&#8217;s PS1 Syntax: The Inspiration for Brainfuck?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/10/09/using-acts-as-list-in-a-polymorphic-scope/">Using acts_as_list in a polymorphic scope</a>
       </li>
     
   </ul>

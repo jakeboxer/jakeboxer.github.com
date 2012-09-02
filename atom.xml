@@ -4,13 +4,66 @@
   <title>jBoxer</title>
   <link href="http://jakeboxer.github.com/atom.xml" rel="self"/>
   <link href="http://jakeboxer.github.com/"/>
-  <updated>2012-07-09T16:39:29-07:00</updated>
+  <updated>2012-09-02T12:38:28-07:00</updated>
   <id>http://jakeboxer.github.com/</id>
   <author>
     <name>Jake Boxer</name>
     
   </author>
 
+  
+  <entry>
+    <title>Why eating sushi is a stressful experience for me</title>
+    <link href="http://jakeboxer.github.com/blog/2012/09/02/why-eating-sushi-is-a-stressful-experience-for-me/"/>
+    <updated>2012-09-02T12:27:00-07:00</updated>
+    <id>http://jakeboxer.github.com/blog/2012/09/02/why-eating-sushi-is-a-stressful-experience-for-me</id>
+    <content type="html">&lt;p&gt;I saw a Reddit thread asking if other people eat parts of their meal in proportion to one another so that all the food is gone at the same time.&lt;/p&gt;
+
+&lt;p&gt;I definitely do this, and it&amp;#8217;s usualy fine, but I have a real problem with sushi/maki. If I&amp;#8217;m eating multiple rolls, I always need to come up with a sequence to eat them in that&amp;#8217;s as well-distributed as possible.&lt;/p&gt;
+
+&lt;p&gt;Of course, this is easy if all my rolls have the same number of pieces. For example, if I get a Spicy Tuna (&lt;code&gt;S&lt;/code&gt;) roll and a Philadelphia (&lt;code&gt;P&lt;/code&gt;) roll, and they each have 6 pieces, my order will be:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;P S P S P S P S P S P S&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Easy. (and to note: I eat the Philadelphia before the Spicy Tuna because I like Spicy Tuna more and I want it to be the last taste in my mouth).&lt;/p&gt;
+
+&lt;p&gt;Now, let&amp;#8217;s say I order a Spider (&lt;code&gt;I&lt;/code&gt;, cuz &lt;code&gt;S&lt;/code&gt; and &lt;code&gt;P&lt;/code&gt; are taken) roll and a Caterpillar (&lt;code&gt;C&lt;/code&gt;) roll. A Spider roll usually has 4 pieces, and a Caterpillar roll usually has 8. So, I&amp;#8217;ll do this:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;C C I C C I C C I C C I&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Still easy.&lt;/p&gt;
+
+&lt;p&gt;Now, let&amp;#8217;s say I pair the Spicy Tuna roll (&lt;code&gt;S&lt;/code&gt;, 6 pieces) with the Caterpillar roll (&lt;code&gt;C&lt;/code&gt;, 8 pieces). I do this:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;C S C S C S C &#8211; C S C S C S C&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;That &lt;code&gt;&#8211;&lt;/code&gt; in there is meaningless; it&amp;#8217;s just to help your eye break it up better. In short, I&amp;#8217;m dividing up my eating experience into two halves, each of which start and end with a Caterpillar roll piece, and then alternate between that and the Spicy Tuna.&lt;/p&gt;
+
+&lt;p&gt;Trickier.&lt;/p&gt;
+
+&lt;p&gt;Enter the chaos-inducing Spicy Scallop roll (Jesus Christ why does all sushi start with the same letters? This is &lt;code&gt;A&lt;/code&gt; I guess). At my favorite sushi restaurant, it has &lt;em&gt;5 pieces&lt;/em&gt;. Fuck.&lt;/p&gt;
+
+&lt;p&gt;If I&amp;#8217;m eating it with a Spicy Tuna (&lt;code&gt;S&lt;/code&gt;, 6) roll, it&amp;#8217;s not so bad:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;S A S A S A S A S A S&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;If I&amp;#8217;m eating it with a Caterpillar (&lt;code&gt;C&lt;/code&gt;, 8) roll&amp;#8230;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;C A C A C &#8211; C A C &#8211; C A C A C&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now my eating experience has two halves and a short halftime show in the middle. Maybe I&amp;#8217;ll eat some ginger during that time as well. Fuck that, straight ginger is nasty.&lt;/p&gt;
+
+&lt;p&gt;So yeah, this adds a lot of stress to my sushi-eating experience. But it doesn&amp;#8217;t end there. What if I&amp;#8217;m extra hungry, and get &lt;em&gt;three&lt;/em&gt; rolls; Spicy Tuna (&lt;code&gt;S&lt;/code&gt;, 6), Caterpillar (&lt;code&gt;C&lt;/code&gt;, 8), &lt;em&gt;and&lt;/em&gt; Spicy Scallop (&lt;code&gt;A&lt;/code&gt;, 5)? Once I stop hyperventilating, I&amp;#8217;ll do it like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;S C A C S &#8211; C A C S A S C A C &#8211; S C A C S&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For the record, I do understand how fucked up this is, but this brilliant three-course-meal-within-a-one-course-meal means I never eat the same piece twice in a row, and I get the satisfaction of eating a palindrome.&lt;/p&gt;
+
+&lt;p&gt;It can get worse than this. Sometimes, I want to get four or five rolls and split them with my girlfriend. Sometimes I know I&amp;#8217;m with someone who will want to trade a piece, so I have to factor in a group of 1.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;ll spare you these horrors, since I think you get the idea. But if you&amp;#8217;re ever out eating sushi with me, and I&amp;#8217;m sitting there staring at my untouched plate with an intense look on my face while everyone else is half done, now you know why.&lt;/p&gt;
+</content>
+  </entry>
   
   <entry>
     <title>Converting to the new RSpec 2.11 expectation syntax</title>
@@ -1350,80 +1403,6 @@
 
 
 &lt;p&gt;How elegantly can people do this in C? I came up with a way, but it&amp;#8217;s gross. If anyone knows a nice way to do it, please enlighten me.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Little Joys of Rails (Part 1) - Renaming Associations</title>
-    <link href="http://jakeboxer.github.com/blog/2009/11/04/little-joys-of-rails-part-1-renaming-associations/"/>
-    <updated>2009-11-04T19:46:00-08:00</updated>
-    <id>http://jakeboxer.github.com/blog/2009/11/04/little-joys-of-rails-part-1-renaming-associations</id>
-    <content type="html">&lt;p&gt;I&amp;#8217;ve spent the last month or so teaching myself the basics of &lt;a href=&quot;http://www.rubyonrails.org/&quot;&gt;Ruby on Rails&lt;/a&gt;. By far my favorite thing about it is that, at every turn, I find a little feature or helper that works really well and does exactly what I want without feeling messy or &amp;#8220;magical&amp;#8221;.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, I have no one to share these little joys with, as pretty much none of my programmer friends know Ruby or Ruby on Rails. So, I figured I&amp;#8217;d start sharing them on here. Hopefully, Rails newbies (like myself) will learn something, and Rails veterans will be able to chuckle knowingly as they fondly look back on the glory days of learning Rails.&lt;/p&gt;
-
-&lt;h2&gt;Renaming Associations&lt;/h2&gt;
-
-&lt;p&gt;If you have one model that &lt;code&gt;belongs_to&lt;/code&gt; another, the association (in both directions) is named after the models. For example, if I have Users and Courses, and I want a course to &lt;code&gt;belong_to&lt;/code&gt; its teacher (who is a User), I would start with the following:&lt;/p&gt;
-
-&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;4&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;5&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;6&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;7&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:courses&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
-
-
-&lt;p&gt;This is nice and simple, but if I want to access a course&amp;#8217;s teacher, I have to do it like this:&lt;/p&gt;
-
-&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Print out the course&amp;#39;s teacher&lt;/span&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
-
-
-&lt;p&gt;That&amp;#8217;s a little confusing. What if my course also &lt;code&gt;has_many&lt;/code&gt; students (also Users)?&lt;/p&gt;
-
-&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Print out the course&amp;#39;s first student&lt;/span&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
-
-
-&lt;p&gt;So, &lt;code&gt;my_course.user&lt;/code&gt; is the teacher, and &lt;code&gt;my_course.users&lt;/code&gt; are the students. There&amp;#8217;s nothing to indicate that, I just have to know it. Wouldn&amp;#8217;t it be nicer if the associations could be named for what they represent?&lt;/p&gt;
-
-&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;3&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:teacher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:class_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;User&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
-
-
-&lt;p&gt;To make this work properly, the foreign key needs to be &lt;code&gt;teacher_id&lt;/code&gt; instead of &lt;code&gt;user_id&lt;/code&gt; (that can be overridden too, but I won&amp;#8217;t go into that right now). Then, you get to do this:&lt;/p&gt;
-
-&lt;figure class=&#8217;code&#8217;&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class=&#8217;line-number&#8217;&gt;1&lt;/span&gt;
-&lt;span class=&#8217;line-number&#8217;&gt;2&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;&lt;code class=&#8217;ruby&#8217;&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&#8217;line&#8217;&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_course&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Print out the course&amp;#39;s teacher&lt;/span&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;
-
-
-&lt;p&gt;Much better!&lt;/p&gt;
-
-&lt;p&gt;Now, I recognize that this is far from a revolutionary feature. I&amp;#8217;m pretty sure it&amp;#8217;s possible in Django and most other MVC frameworks. I was just very happy to bump into it.&lt;/p&gt;
 </content>
   </entry>
   
